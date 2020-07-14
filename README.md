@@ -1,0 +1,2 @@
+# MovieStore
+dotNetCoreApplication EF
