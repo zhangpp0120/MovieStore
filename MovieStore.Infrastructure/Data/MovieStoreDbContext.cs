@@ -52,6 +52,10 @@ namespace MovieStore.Infrastructure.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Trailer> Trailers { get; set; }
         public DbSet<MovieGenre> MovieGenres { get; set; }
+        public DbSet<MovieCast> MovieCasts { get; set; }
+        public DbSet<Cast> Casts { get; set; }
+
+
 
         //fluent API 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -59,6 +63,99 @@ namespace MovieStore.Infrastructure.Data
             modelBuilder.Entity<Movie>(ConfigureMovie);
             modelBuilder.Entity<Trailer>(ConfigureTrailer);
             modelBuilder.Entity<MovieGenre>(ConfigureMovieGenre);
+            modelBuilder.Entity<MovieCast>(ConfigureMovieCast);
+            modelBuilder.Entity<Cast>(ConfigureCast);
+            modelBuilder.Entity<User>(ConfigureUser);
+            modelBuilder.Entity<Role>(ConfigureRole);
+            modelBuilder.Entity<UserRole>(ConfigureUserRole);
+            modelBuilder.Entity<Purchase>(ConfigurePurchase);
+            modelBuilder.Entity<Favorite>(ConfigureFavorite);
+            modelBuilder.Entity<Review>(ConfigureReview);
+
+
+        }
+
+        private void ConfigureReview(EntityTypeBuilder<Review> modelBuilder)
+        {
+            modelBuilder.ToTable("Review");
+            modelBuilder.HasKey(r => new { r.MovieId, r.UserId });
+            modelBuilder.HasOne(r => r.User).WithMany(u => u.Reviews).HasForeignKey(r => r.UserId);
+            modelBuilder.HasOne(r => r.Movie).WithMany(m => m.Reviews).HasForeignKey(r => r.MovieId);
+            modelBuilder.Property(r => r.Rating).IsRequired().HasColumnType("decimal(3,2)");
+            modelBuilder.Property(r => r.ReviewText);
+        }
+
+        private void ConfigureFavorite(EntityTypeBuilder<Favorite> modelBuilder)
+        {
+            modelBuilder.ToTable("Favorite");
+            modelBuilder.HasKey(f => f.Id);
+
+        }
+
+        private void ConfigurePurchase(EntityTypeBuilder<Purchase> modelBuilder)
+        {
+            modelBuilder.ToTable("Purchase");
+            modelBuilder.HasKey(p => p.Id);
+            modelBuilder.Property(p => p.PurchaseNumber).IsRequired();
+            modelBuilder.Property(p => p.TotalPrice).HasColumnType("decimal(5, 2)").IsRequired();
+            modelBuilder.Property(p => p.PurchaseDateTime).IsRequired();
+        }
+
+        private void ConfigureUserRole(EntityTypeBuilder<UserRole> modelBuilder)
+        {
+            modelBuilder.ToTable("UserRole");
+            modelBuilder.HasKey(ur => new { ur.UserId, ur.RoleId });
+            modelBuilder.HasOne(ur => ur.User).WithMany(u => u.UserRoles).HasForeignKey(ur => ur.UserId);
+            modelBuilder.HasOne(ur => ur.Role).WithMany(r => r.UserRoles).HasForeignKey(ur => ur.RoleId);
+
+        }
+
+        private void ConfigureRole(EntityTypeBuilder<Role> modelBuilder)
+        {
+            modelBuilder.ToTable("Role");
+            modelBuilder.HasKey(r => r.Id);
+            modelBuilder.Property(r => r.Name).HasMaxLength(20);
+
+        }
+
+        private void ConfigureUser(EntityTypeBuilder<User> modelBuilder)
+        {
+            modelBuilder.ToTable("User");
+            modelBuilder.HasKey(u => u.Id);
+            modelBuilder.Property(u => u.FirstName).HasMaxLength(256);
+            modelBuilder.Property(u => u.LastName).HasMaxLength(256);
+            modelBuilder.Property(u => u.DateOfBirth);
+            modelBuilder.Property(u => u.Email);
+            modelBuilder.Property(u => u.HashedPassword);
+            modelBuilder.Property(u => u.Salt);
+            modelBuilder.Property(u => u.PhoneNumber);
+            modelBuilder.Property(u => u.TwoFactorEnabled);
+            modelBuilder.Property(u => u.LockoutEndDate);
+            modelBuilder.Property(u => u.LastLoginDateTime);
+            modelBuilder.Property(u => u.IsLocked).IsRequired();
+            modelBuilder.Property(u => u.AccessFailedCount);
+
+        }
+
+        private void ConfigureCast(EntityTypeBuilder<Cast> modelBuilder)
+        {
+            modelBuilder.ToTable("Cast");
+            modelBuilder.HasKey(c => c.Id);
+            modelBuilder.Property(c => c.Name).HasMaxLength(128);
+            modelBuilder.Property(c => c.Gender);
+            modelBuilder.Property(c => c.TmdbUrl);
+            modelBuilder.Property(c => c.ProfilePath).HasMaxLength(2084);
+
+        }
+
+        private void ConfigureMovieCast(EntityTypeBuilder<MovieCast> modelBuilder)
+        {
+            modelBuilder.ToTable("MovieCast");
+            modelBuilder.HasKey(mc => new { mc.MovieId, mc.CastId, mc.Character});
+            modelBuilder.HasOne(mc => mc.Movie).WithMany(c => c.MovieCasts).HasForeignKey(mc => mc.MovieId);
+            modelBuilder.HasOne(mc => mc.Cast).WithMany(c => c.MovieCasts).HasForeignKey(mc => mc.CastId);
+            modelBuilder.Property(mc => mc.Character).HasMaxLength(450);
+
         }
 
         private void ConfigureMovieGenre(EntityTypeBuilder<MovieGenre> modelBuilder)
@@ -80,10 +177,6 @@ namespace MovieStore.Infrastructure.Data
         private void ConfigureMovie(EntityTypeBuilder<Movie> modelBuilder)
         {
             // we can use Fluent API configuration to model our tables.
-            //modelBuilder.ToTable("Movie");
-            //modelBuilder.HasKey(m => m.Id);
-            //modelBuilder.Property(m => m.Title).IsRequired().HasMaxLength(256);
-
             modelBuilder.ToTable("Movie");
             modelBuilder.HasKey(m => m.Id);
             modelBuilder.Property(m => m.Title).IsRequired().HasMaxLength(256);
