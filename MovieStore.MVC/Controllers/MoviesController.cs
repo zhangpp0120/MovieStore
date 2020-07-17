@@ -3,30 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MovieStore.Core.RepositoryInterfaces;
+using MovieStore.Core.ServiceInterfaces;
 using MovieStore.MVC.Models;
 
 namespace MovieStore.MVC.Controllers
 {
     public class MoviesController : Controller
     {
+        //IOC container, ASP.net has built-in IOC/DI
+        // in .net Framework we needt to rely on third-party IOC to do Dependency  Injection, Autofac, Ninject.
+
+        private readonly IMovieService _movieService;
+
+        public MoviesController(IMovieService movieService)
+        {
+            _movieService = movieService;
+        }
+
         // get localhost/Movies/index
         [HttpGet] // attributes in C#   put on top of a method.
         // the default is HttpGet.
-        public IActionResult Index()
-        {
-            // go to database and get some list of movies and give it back to the view
-            //var movies = new List<Movie>
-            //{
-            //    new Movie {Id = 1, Title = "Avengers: Infinity War", Budget = 1200000},
-            //    new Movie {Id = 2, Title = "Avatar", Budget = 1200000},
-            //    new Movie {Id = 3, Title = "Star Wars: The Force Awakens", Budget = 1200000},
-            //    new Movie {Id = 4, Title = "Titanic", Budget = 1200000},
-            //    new Movie {Id = 5, Title = "Inception", Budget = 1200000},
-            //    new Movie {Id = 6, Title = "Avengers: Age of Ultron", Budget = 1200000},
-            //    new Movie {Id = 7, Title = "Interstellar", Budget = 1200000},
-            //    new Movie {Id = 8, Title = "Fight Club", Budget = 1200000},
-            //};
 
+        //create a  new method for the method in the controller and test
+        public async Task<IActionResult> Index()
+        {
+            var movies = await _movieService.GetTop25HighestRevenueMovies();
+            return View(movies);
             // this MovieesCount is a dynamic property, you can put whatever data you want.
             //ViewBag.MoviesCount = movies.Count;
             //ViewData["myname"] = "John Doe";
@@ -38,7 +41,6 @@ namespace MovieStore.MVC.Controllers
             // 2. ViewBag --dynamic
             // 3. ViewData - key/value
             //return View(movies);
-            return View();
         }
         
         [HttpPost]
