@@ -46,13 +46,15 @@ namespace MovieStore.Infrastructure.Repositories
             //    .Take(25)
             //    .ToListAsync();
 
-            //var movies = await _dbContext.Reviews.Include(m => m.Movie)
-            //    .GroupBy(r => r.MovieId)
-            //    .OrderByDescending(g => g.Average(m => m.Rating))
-            //    .Select(m => new Movie { Id = m.Key, Title = Rating = m.Average(r => r.Rating)}).Take(25).ToListAsync();
 
+            // correct way 1
+            var movies = await _dbContext.Reviews.Include(m => m.Movie)
+                .GroupBy(r => new { r.MovieId, r.Movie.Title})
+                .OrderByDescending(g => g.Average(m => m.Rating))
+                .Select(m => new Movie { Id = m.Key.MovieId, Title =m.Key.Title,  Rating = m.Average(r => r.Rating) }).Take(25).ToListAsync();
 
-            var movies = await _dbContext.Movies.OrderByDescending(g =>g.Reviews.Average(r => r.Rating)).Take(25).ToListAsync();
+            // correct way 2
+            //var movies = await _dbContext.Movies.OrderByDescending(g =>g.Reviews.Average(r => r.Rating)).Take(25).ToListAsync();
 
             return (IEnumerable<Movie>)movies;
         }
