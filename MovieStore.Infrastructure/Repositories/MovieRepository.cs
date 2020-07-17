@@ -29,21 +29,30 @@ namespace MovieStore.Infrastructure.Repositories
 
         public async Task<IEnumerable<Movie>> GetTop25RatedMovies()
         {
-            //var moviesId =(from r in _dbContext.Reviews
-            //             join m in _dbContext.Movies on r.MovieId equals m.Id
-            //             group r by r.MovieId into rw
-            //             orderby rw.Average(r=>r.Rating) select new { Id = rw.Key}).Take(25);
+            //var movies = await (from r in _dbContext.Reviews
+            //                join m in _dbContext.Movies on r.MovieId equals m.Id
+            //                group m by r.MovieId into rw
+            //                orderby rw.Average(r => r.Rating) descending
+            //                select new Movie{Id = rw.Key, Rating = rw.Average(r=> r.Rating) }).Take(25).ToListAsync();
 
-          
+
             //var reviews = _dbContext.Reviews.GroupBy(r => r.MovieId).OrderByDescending(r => r.Average(i => i.Rating)).Take(25);
             //var movies = _dbContext.Movies.Where(m => reviews.Contains( m.Id) )
 
-            var movies = await _dbContext.Movies
-                .Join(_dbContext.Reviews, m => m.Id, r => r.MovieId, (m, r) => new { m, r })
-                .GroupBy(mr => mr.m.Id)
-                //.OrderByDescending(mr => mr.Average(i => i.r.Rating))
-                .Take(25)
-                .ToListAsync();
+            //var movies = await _dbContext.Movies
+            //    .Join(_dbContext.Reviews, m => m.Id, r => r.MovieId, (m, r) => new { m, r })
+            //    .GroupBy(mr => mr.m.Id)
+            //    //.OrderByDescending(mr => mr.Average(i => i.r.Rating))
+            //    .Take(25)
+            //    .ToListAsync();
+
+            //var movies = await _dbContext.Reviews.Include(m => m.Movie)
+            //    .GroupBy(r => r.MovieId)
+            //    .OrderByDescending(g => g.Average(m => m.Rating))
+            //    .Select(m => new Movie { Id = m.Key, Title = Rating = m.Average(r => r.Rating)}).Take(25).ToListAsync();
+
+
+            var movies = await _dbContext.Movies.OrderByDescending(g =>g.Reviews.Average(r => r.Rating)).Take(25).ToListAsync();
 
             return (IEnumerable<Movie>)movies;
         }
