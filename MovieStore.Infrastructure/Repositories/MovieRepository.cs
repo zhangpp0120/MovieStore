@@ -27,12 +27,6 @@ namespace MovieStore.Infrastructure.Repositories
             return movies;
         }
 
-        public async Task<int> GetMovieCounts(string title)
-        {
-            var cts = await _dbContext.Movies.Where(x=>x.Title == title).CountAsync();
-            return cts;
-        }
-
         public async Task<IEnumerable<Movie>> GetTop25RatedMovies()
         {
             //var moviesId =(from r in _dbContext.Reviews
@@ -46,8 +40,8 @@ namespace MovieStore.Infrastructure.Repositories
 
             var movies = await _dbContext.Movies
                 .Join(_dbContext.Reviews, m => m.Id, r => r.MovieId, (m, r) => new { m, r })
-                .GroupBy(mr => mr.r.MovieId)
-                .OrderByDescending(r => r.Average(i => i.r.Rating))
+                .GroupBy(mr => mr.m.Id)
+                //.OrderByDescending(mr => mr.Average(i => i.r.Rating))
                 .Take(25)
                 .ToListAsync();
 

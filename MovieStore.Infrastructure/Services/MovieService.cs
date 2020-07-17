@@ -21,17 +21,17 @@ namespace MovieStore.Infrastructure.Services
 
         public async Task<Movie> CreateMovie(Movie movie)
         {
-            throw new NotImplementedException();
+            return await _movieRepository.AddAsync(movie);
         }
 
         public async Task<Movie> GetMovieById(int id)  
         {
-            throw new NotImplementedException();
+            return await _movieRepository.GetByIdAsync(id);
         }
 
         public async Task<int> GetMovieCount(string title = "")
         {
-            return await _movieRepository.GetMovieCounts(title);
+            return await _movieRepository.GetCountAsync(m=>m.Title == title);
         }
 
         public async Task<IEnumerable<Movie>> GetTop25HighestRevenueMovies()
@@ -46,7 +46,7 @@ namespace MovieStore.Infrastructure.Services
 
         public async Task<Movie> UpdateMovie(Movie movie)
         {
-            throw new NotImplementedException();
+            return await _movieRepository.UpdateAsync(movie);
         }
     }
 

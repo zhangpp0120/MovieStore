@@ -55,6 +55,7 @@ namespace MovieStore.MVC.Controllers
 
 
             var movies = await _moiveService.GetTop25HighestRevenueMovies();
+            //var movies1 = await _moiveService.GetTop25RatedMovies();
             return View(movies);
         }
     }

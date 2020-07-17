@@ -11,9 +11,6 @@ namespace MovieStore.Core.RepositoryInterfaces
         Task<IEnumerable<Movie>> GetHighestRevenueMovie();
 
         Task<IEnumerable<Movie>> GetTop25RatedMovies();
-
-        Task<int> GetMovieCounts(String title);
-
     }
 
     // IAsyncRepository has 8 methods

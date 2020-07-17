@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MovieStore.Core.RepositoryInterfaces
 {
-    public interface IGenreRepository:IAsyncRepository<Genre>
+    public interface IGenreRepository: IAsyncRepository<Genre>
     {
-        Task<IEnumerable<Genre>> GetAllGenres();
+
     }
 }

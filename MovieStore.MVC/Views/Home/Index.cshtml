@@ -17,7 +17,8 @@ razor view, combine html and C#
         <div class="row">
             @foreach (var movie in Model)
             {
-                <partial name="_MovieCard" model=" movie" />
+                @*<partial name="_MovieCard" model=" movie" />*@ @*firstway*@
+                @await Html.PartialAsync("_MovieCard", movie)   @*secondway*@
             }
         </div>
     </div>

@@ -28,6 +28,9 @@ namespace MovieStore.MVC.Controllers
         //create a  new method for the method in the controller and test
         public async Task<IActionResult> Index()
         {
+            //var movies = await _movieService.GetTop25HighestRevenueMovies();
+            //var movies = await _movieService.GetMovieById(2);
+            //var movies = await _movieService.GetMovieCount("Iron Man");
             var movies = await _movieService.GetTop25HighestRevenueMovies();
             //var movies = await _movieService.GetTop25RatedMovies();
             return View(movies);

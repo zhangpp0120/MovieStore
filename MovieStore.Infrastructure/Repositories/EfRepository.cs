@@ -14,18 +14,10 @@ namespace MovieStore.Infrastructure.Repositories
     public class EfRepository<T> : IAsyncRepository<T> where T : class
     {
         protected readonly MovieStoreDbContext _dbContext;
-        private GenreRepository dbContext;
-
         public EfRepository(MovieStoreDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-
-        public EfRepository(GenreRepository dbContext)
-        {
-            this.dbContext = dbContext;
-        }
-
         public virtual async Task<T> GetByIdAsync(int id)
         {
             return await _dbContext.Set<T>().FindAsync(id);

@@ -15,29 +15,10 @@ namespace MovieStore.Infrastructure.Services
         {
             _genreRepository = genreRepository;
         }
-        public async Task<Genre> CreateGenre(Genre genre)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<IEnumerable<Genre>> GetAllGenres()
         {
-            return await _genreRepository.GetAllGenres();
-        }
-
-        public async Task<Genre> GetGenreById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<int> GetGenreCount(string title = "")
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Genre> UpdateGenre(Genre Genre)
-        {
-            throw new NotImplementedException();
+            return await _genreRepository.ListAllAsync();
         }
     }
 }

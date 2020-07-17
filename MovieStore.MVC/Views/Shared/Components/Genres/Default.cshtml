@@ -1,0 +1,15 @@
+﻿@model IEnumerable<MovieStore.Core.Entities.Genre>
+
+
+@foreach (var genre in Model)
+{
+    <a class="dropdown-item"> @genre.Name</a>
+
+}
+
+
+@*1. When I click on genre, it should go to GenresController or MoviesController and an action method that will get me list of Movies belonging to that genre
+2. Show them as Index page , show them as Movie Poster, here you can re use the MoveCard Partial View
+3. Go to MovieController, go to action method called Genres, genreid
+4. Now take that genre id and get movies belonging to that genre and return a View (new View),
+where inside that view you need to re-use the MovieCard partial View*@

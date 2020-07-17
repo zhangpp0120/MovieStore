@@ -35,9 +35,12 @@ namespace MovieStore.MVC
 
             services.AddDbContext<MovieStoreDbContext>(options=>
                 options.UseSqlServer(Configuration.GetConnectionString("MovieStoreDbConnection")));
+
             // DI in ASP.net core has 3 types of lifetime, scoped, singleton, transient.
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<IGenreService, GenreService>();
 
         }
 
