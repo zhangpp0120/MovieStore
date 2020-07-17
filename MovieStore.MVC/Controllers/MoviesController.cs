@@ -29,6 +29,7 @@ namespace MovieStore.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             var movies = await _movieService.GetTop25HighestRevenueMovies();
+            //var movies = await _movieService.GetTop25RatedMovies();
             return View(movies);
             // this MovieesCount is a dynamic property, you can put whatever data you want.
             //ViewBag.MoviesCount = movies.Count;

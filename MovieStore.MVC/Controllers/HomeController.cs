@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MovieStore.Core.ServiceInterfaces;
 using MovieStore.MVC.Models;
 
 namespace MovieStore.MVC.Controllers
@@ -20,7 +21,12 @@ namespace MovieStore.MVC.Controllers
 
     public class HomeController : Controller
     {
-       public IActionResult Index()
+        private readonly IMovieService _moiveService;
+        public HomeController(IMovieService movieService)
+        {
+            _moiveService = movieService;
+        }
+       public async  Task<IActionResult> Index()
         {
             // here we need to return a instance of a class that implements that IActionResult.
             // By default MVC will look for the same name as Action method name
@@ -36,7 +42,20 @@ namespace MovieStore.MVC.Controllers
 
             //In ASP.NET Core Middleware ... a piece of software logic that will be executed...
             // request --> M1 --> some process --> next M2 -->M3 ... M5  --> Response 
-            return View();
+
+            //07/17 for the UI
+            // we need or? Movie Card we are going to use that one in lots of places...
+            // 1. Homepage -- show top revenue movies --> movie card
+            // 2. Genres/ show Movies belonging to that genre --> movie card
+            // 3. top reted movies--> top movies  as a card
+            // we have to create this movie card in such a way that it can be reused in lots of places.
+            // Partial views will helps us in creating resusable views across the application.
+            // partial views are views inside another view.
+            // name of it start with '_' for shared view.
+
+
+            var movies = await _moiveService.GetTop25HighestRevenueMovies();
+            return View(movies);
         }
     }
 }
