@@ -10,11 +10,11 @@ namespace MovieStore.MVC.Controllers
     public class GenresController : Controller
     {
         private readonly IGenreService _genreService;
-        private readonly IMovieService _movieService;
+        //private readonly IMovieService _movieService;
         public GenresController(IGenreService genreService, IMovieService movieService)
         {
             _genreService = genreService;
-            _movieService = movieService;
+            //_movieService = movieService;
         }
         public async Task<IActionResult> Index()
         {

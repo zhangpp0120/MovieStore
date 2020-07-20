@@ -26,13 +26,13 @@ namespace MovieStore.MVC.Controllers
         // the default is HttpGet.
 
         //create a  new method for the method in the controller and test
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index()
         {
             //var movies = await _movieService.GetTop25HighestRevenueMovies();
-            var movies = await _movieService.GetMovieById(id);   // inception  works
-                                                                 //var movies = await _movieService.GetMovieCount("Avatar"); //1  works
-                                                                 //var movies = await _movieService.GetTop25RatedMovies(); // wroks
-
+            //var movies = await _movieService.GetMovieById(1);   // inception  works
+            //var movies = await _movieService.GetMovieCount("Avatar"); //1  works
+            var movies = await _movieService.GetTop25RatedMovies(); // wroks
+             
             return View(movies);
             // this MovieesCount is a dynamic property, you can put whatever data you want.
             //ViewBag.MoviesCount = movies.Count;
@@ -75,6 +75,17 @@ namespace MovieStore.MVC.Controllers
         {
             var movies = await _movieService.GetMoviesByGenreId(gId);
             return View(movies);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Movie(int mId)
+        {
+            var movieDetails = await _movieService.GetMovieById(mId);
+            movieDetails.Rating = await _movieService.GetMovieRatingById(mId);
+            movieDetails.MovieCasts = (ICollection<Core.Entities.MovieCast>)await _movieService.GetMovieCastsById(mId);
+
+            return View(movieDetails);
         }
     }
 }

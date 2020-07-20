@@ -21,14 +21,41 @@ namespace MovieStore.Infrastructure.Repositories
         {
         }
 
+        public override async Task<Movie> GetByIdAsync(int id)
+        {
+            var movie = await _dbContext.Movies.FindAsync(id);
+            movie.Rating = await Task.FromResult<decimal>(_dbContext.Reviews.Where(m => m.MovieId == id).Average(r => r.Rating));
+            movie.MovieCasts = await _dbContext.MovieCasts.Where(m => m.MovieId == id).ToListAsync();
+            return movie;
+        }
+
         public async Task<IEnumerable<Movie>> GetHighestRevenueMovie()
         {
             var movies = await _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(25).ToListAsync();
             return movies;
         }
 
+        public async Task<IEnumerable<MovieCast>> GetMovieCastsById(int mId)
+        {
+            //sql
+            //select * from cast c join moviecast mc on mc.castid = c.id where mc.movieid = mId
+            var mCasts = await _dbContext.MovieCasts.Where(m => m.MovieId == mId).ToListAsync();
+            return mCasts;
+        }
+
+        public async Task<decimal> GetMovieRatingById(int mId)
+        {
+            //sql
+            //select avg(rating) from review r join movie m on m.id = r.MovieId
+            //where m.id = mId
+            //group by m.id
+            var rating =await Task.FromResult<decimal>(_dbContext.Reviews.Where(m=>m.MovieId ==mId).Average(r=>r.Rating));
+            return rating;
+        }
+
         public async Task<IEnumerable<Movie>> GetMoviesByGenreId(int gId)
         {
+            //sql
             //select * from movie m join moviegenre mg on m.id = mg.movieid where mg.genreid = gId
             var movies = await(from m in _dbContext.Movies join mg in _dbContext.MovieGenres on m.Id equals mg.MovieId where mg.GenreId == gId select m).ToListAsync();
             return movies;
@@ -36,24 +63,7 @@ namespace MovieStore.Infrastructure.Repositories
 
         public async Task<IEnumerable<Movie>> GetTop25RatedMovies()
         {
-            //var movies = await (from r in _dbContext.Reviews
-            //                join m in _dbContext.Movies on r.MovieId equals m.Id
-            //                group m by r.MovieId into rw
-            //                orderby rw.Average(r => r.Rating) descending
-            //                select new Movie{Id = rw.Key, Rating = rw.Average(r=> r.Rating) }).Take(25).ToListAsync();
-
-
-            //var reviews = _dbContext.Reviews.GroupBy(r => r.MovieId).OrderByDescending(r => r.Average(i => i.Rating)).Take(25);
-            //var movies = _dbContext.Movies.Where(m => reviews.Contains( m.Id) )
-
-            //var movies = await _dbContext.Movies
-            //    .Join(_dbContext.Reviews, m => m.Id, r => r.MovieId, (m, r) => new { m, r })
-            //    .GroupBy(mr => mr.m.Id)
-            //    //.OrderByDescending(mr => mr.Average(i => i.r.Rating))
-            //    .Take(25)
-            //    .ToListAsync();
-
-
+     
             // correct way 1
             var movies = await _dbContext.Reviews.Include(m => m.Movie)
                 .GroupBy(r => new { r.MovieId, r.Movie.Title})
