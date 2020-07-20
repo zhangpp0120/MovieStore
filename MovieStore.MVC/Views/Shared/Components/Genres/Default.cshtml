@@ -3,14 +3,15 @@
 
 @foreach (var genre in Model)
 {
-    <a class="dropdown-item" href ="movies/index"> @genre.Name</a>
+    // asp-route-{name of your parameter}
+    <a asp-action="Genre" asp-controller="Movies" class="dropdown-item" asp-route-gId="@genre.Id"> @genre.Name</a>
     // the href here need to be modified for each genre.
 
 }
 
 
 @*1. When I click on genre, it should go to GenresController or MoviesController and an action method that will get me list of Movies belonging to that genre
-2. Show them as Index page , show them as Movie Poster, here you can re use the MoveCard Partial View
-3. Go to MovieController, go to action method called Genres, genreid
-4. Now take that genre id and get movies belonging to that genre and return a View (new View),
-where inside that view you need to re-use the MovieCard partial View*@
+    2. Show them as Index page , show them as Movie Poster, here you can re use the MoveCard Partial View
+    3. Go to MovieController, go to action method called Genres, genreid
+    4. Now take that genre id and get movies belonging to that genre and return a View (new View),
+    where inside that view you need to re-use the MovieCard partial View*@

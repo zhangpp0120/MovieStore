@@ -20,5 +20,7 @@ namespace MovieStore.Infrastructure.Services
         {
             return await _genreRepository.ListAllAsync();
         }
+
+
     }
 }

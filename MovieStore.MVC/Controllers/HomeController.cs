@@ -21,11 +21,12 @@ namespace MovieStore.MVC.Controllers
 
     public class HomeController : Controller
     {
-        private readonly IMovieService _moiveService;
+        private readonly IMovieService _movieService;
         public HomeController(IMovieService movieService)
         {
-            _moiveService = movieService;
+            _movieService = movieService;
         }
+        [HttpGet]
        public async  Task<IActionResult> Index()
         {
             // here we need to return a instance of a class that implements that IActionResult.
@@ -54,7 +55,7 @@ namespace MovieStore.MVC.Controllers
             // name of it start with '_' for shared view.
 
 
-            var movies = await _moiveService.GetTop25HighestRevenueMovies();
+            var movies = await _movieService.GetTop25HighestRevenueMovies();
             //var movies1 = await _moiveService.GetTop25RatedMovies();
             return View(movies);
         }

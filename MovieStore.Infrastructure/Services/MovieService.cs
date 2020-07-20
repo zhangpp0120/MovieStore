@@ -34,6 +34,11 @@ namespace MovieStore.Infrastructure.Services
             return await _movieRepository.GetCountAsync(m=>m.Title == title);
         }
 
+        public async Task<IEnumerable<Movie>> GetMoviesByGenreId(int gId)
+        {
+            return await _movieRepository.GetMoviesByGenreId(gId);
+        }
+
         public async Task<IEnumerable<Movie>> GetTop25HighestRevenueMovies()
         {
             return await _movieRepository.GetHighestRevenueMovie();

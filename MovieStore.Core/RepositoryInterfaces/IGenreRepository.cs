@@ -8,6 +8,5 @@ namespace MovieStore.Core.RepositoryInterfaces
 {
     public interface IGenreRepository: IAsyncRepository<Genre>
     {
-
     }
 }

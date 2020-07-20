@@ -26,14 +26,14 @@ namespace MovieStore.MVC.Controllers
         // the default is HttpGet.
 
         //create a  new method for the method in the controller and test
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
             //var movies = await _movieService.GetTop25HighestRevenueMovies();
-            //var movies = await _movieService.GetMovieById(1);   // inception  works
-            //var movies = await _movieService.GetMovieCount("Avatar"); //1  works
-            var movies = await _movieService.GetTop25RatedMovies(); //did not wroks
-            
-            return View(movies); 
+            var movies = await _movieService.GetMovieById(id);   // inception  works
+                                                                 //var movies = await _movieService.GetMovieCount("Avatar"); //1  works
+                                                                 //var movies = await _movieService.GetTop25RatedMovies(); // wroks
+
+            return View(movies);
             // this MovieesCount is a dynamic property, you can put whatever data you want.
             //ViewBag.MoviesCount = movies.Count;
             //ViewData["myname"] = "John Doe";
@@ -46,7 +46,7 @@ namespace MovieStore.MVC.Controllers
             // 3. ViewData - key/value
             //return View(movies);
         }
-        
+
         [HttpPost]
         // here we want to create a movie, post here.
         public IActionResult Create(string title, decimal budget)
@@ -67,6 +67,14 @@ namespace MovieStore.MVC.Controllers
             // we need to have this method so that we can show the empty page for the user to enter movie infomation that needs to be created.
 
             return View();
+        }
+        [HttpGet]
+        // if use asp-route-id, the name of that parameter is id
+        // i use asp-route-gId, (in the default file of genres)
+        public async Task<IActionResult> Genre(int gId)
+        {
+            var movies = await _movieService.GetMoviesByGenreId(gId);
+            return View(movies);
         }
     }
 }

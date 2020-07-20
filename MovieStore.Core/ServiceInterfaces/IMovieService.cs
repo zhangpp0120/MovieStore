@@ -15,5 +15,7 @@ namespace MovieStore.Core.ServiceInterfaces
         Task<Movie> CreateMovie(Movie movie);
         Task<Movie> UpdateMovie(Movie movie);
         Task<int> GetMovieCount(string title = ""); // pagination ??
+        Task<IEnumerable<Movie>> GetMoviesByGenreId(int gId);
+
     }
 }

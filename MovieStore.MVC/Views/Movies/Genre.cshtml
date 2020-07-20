@@ -1,0 +1,16 @@
+﻿@model IEnumerable<MovieStore.Core.Entities.Movie>
+@*
+    This is Genre/index page
+        return AllGenres
+*@
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            @foreach (var movie in Model)
+            {
+                @movie.Title <br />
+
+            }
+        </div>
+    </div>
+</div>

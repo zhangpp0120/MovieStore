@@ -27,6 +27,13 @@ namespace MovieStore.Infrastructure.Repositories
             return movies;
         }
 
+        public async Task<IEnumerable<Movie>> GetMoviesByGenreId(int gId)
+        {
+            //select * from movie m join moviegenre mg on m.id = mg.movieid where mg.genreid = gId
+            var movies = await(from m in _dbContext.Movies join mg in _dbContext.MovieGenres on m.Id equals mg.MovieId where mg.GenreId == gId select m).ToListAsync();
+            return movies;
+        }
+
         public async Task<IEnumerable<Movie>> GetTop25RatedMovies()
         {
             //var movies = await (from r in _dbContext.Reviews
