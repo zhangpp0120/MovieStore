@@ -137,7 +137,7 @@ namespace MovieStore.Infrastructure.Data
             modelBuilder.Property(u => u.TwoFactorEnabled);
             modelBuilder.Property(u => u.LockoutEndDate);
             modelBuilder.Property(u => u.LastLoginDateTime);
-            modelBuilder.Property(u => u.IsLocked).IsRequired();
+            modelBuilder.Property(u => u.IsLocked);
             modelBuilder.Property(u => u.AccessFailedCount);
 
         }

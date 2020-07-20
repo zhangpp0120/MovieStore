@@ -41,6 +41,12 @@ namespace MovieStore.MVC
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IGenreService, GenreService>();
+            services.AddScoped<ICryptoService, CryptoService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<ICryptoRepository, CryptoRepository>();
+            //services.AddScoped<ICryptoService, CryptoService>();
+           
 
         }
 
