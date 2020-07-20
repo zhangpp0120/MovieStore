@@ -5,66 +5,68 @@
 }
 
 @model MovieStore.Core.Entities.Movie
-    <div class="container-fluid">
-        <a>
-            <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
-        </a>
+<section>
+    <!--Grid row-->
+    <div class="row mx-1">
+
+        <!--Grid column-->
+        <div class="col-md-4 mb-4">
+            <div class="container-fluid" background-image="@Model.BackdropUrl">
+                <a>
+                    <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
+                </a>
+            </div>
+        </div>
+        <div class="col-md-8 mb-4">
+            <h1>@Model.Title</h1>
+            <br />
+            <a>@Model.Tagline</a>
+            <br />
+            <a>@Model.Overview</a>
+        </div>
+        <!--Grid column-->
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+            <h4>MOVIE FACTS</h4> 
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th scope="col">ReleaseDate: </th>
+                        <th scope="col">@Model.ReleaseDate</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Run Time: </th>
+                        <th scope="col", class="minutes">@Model.RunTime</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Budget: </th>
+                        <th scope="col">@Model.Budget</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--Grid column-->
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+            <h4>CAST</h4>
+            <table class="table">
+                <tbody>
+                    @foreach (var movie in Model.MovieCasts)
+                    {
+                    <tr>
+                        <th scope="col">@movie.CastId</th>
+                        @*<th scope="col">@movie.Cast.Name: </th>*@
+                        <th scope="col">@movie.Character</th>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+        <!--Grid column-->
+
     </div>
+    <!--Grid row-->
 
-<div> MOVIE FACTS @Model.Rating</div>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-        </tr>
-    </tbody>
-</table>
-
-<div>CAST</div>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-        </tr>
-    </tbody>
-</table>
+</section>
+<!--Projects section v.4-->
