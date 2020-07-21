@@ -25,16 +25,11 @@
                             <a class="nav-link text-dark dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown">Genres</a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 @*call the View components / MovieStore.MVC.Views.Shared.Components.Genres
-                                call the InvokeAsync in the GenresViewComponents.cs*@
+                call the InvokeAsync in the GenresViewComponents.cs*@
                                 @await Component.InvokeAsync("Genres")
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Sign Up</a>
-                        </li>
+                        <partial name="_LoginResult" /> @*firstway*@
                     </ul>
                 </div>
             </div>

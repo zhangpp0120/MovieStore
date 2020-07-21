@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.WebSockets;
@@ -36,6 +37,14 @@ namespace MovieStore.MVC
             services.AddDbContext<MovieStoreDbContext>(options=>
                 options.UseSqlServer(Configuration.GetConnectionString("MovieStoreDbConnection")));
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(
+                options => { options.Cookie.Name = "MovieStoreAuthCookie";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    options.LoginPath = "/Account/Login";
+                }
+                );
+
             // DI in ASP.net core has 3 types of lifetime, scoped, singleton, transient.
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMovieService, MovieService>();
@@ -44,8 +53,6 @@ namespace MovieStore.MVC
             services.AddScoped<ICryptoService, CryptoService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
-            //services.AddScoped<ICryptoRepository, CryptoRepository>();
-            //services.AddScoped<ICryptoService, CryptoService>();
            
 
         }
@@ -68,6 +75,7 @@ namespace MovieStore.MVC
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
