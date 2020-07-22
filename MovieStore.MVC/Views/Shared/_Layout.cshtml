@@ -25,7 +25,7 @@
                             <a class="nav-link text-dark dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown">Genres</a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 @*call the View components / MovieStore.MVC.Views.Shared.Components.Genres
-                call the InvokeAsync in the GenresViewComponents.cs*@
+                                    call the InvokeAsync in the GenresViewComponents.cs*@
                                 @await Component.InvokeAsync("Genres")
                             </div>
                         </li>
@@ -50,5 +50,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+
+    <environment include="Development"> <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" /> </environment>
+    <environment exclude=”Development”> <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" /></environment>
 </body>
 </html>

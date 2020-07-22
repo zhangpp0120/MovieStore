@@ -79,11 +79,11 @@ namespace MovieStore.MVC.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Movie(int mId)
+        public async Task<IActionResult> MovieDetail(int mId)
         {
             var movieDetails = await _movieService.GetMovieById(mId);
-            movieDetails.Rating = await _movieService.GetMovieRatingById(mId);
-            movieDetails.MovieCasts = (ICollection<Core.Entities.MovieCast>)await _movieService.GetMovieCastsById(mId);
+            //movieDetails.Rating = await _movieService.GetMovieRatingById(mId);
+            //movieDetails.MovieCasts = (ICollection<Core.Entities.MovieCast>)await _movieService.GetMovieCastsById(mId);
 
             return View(movieDetails);
         }

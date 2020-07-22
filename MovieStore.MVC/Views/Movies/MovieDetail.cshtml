@@ -1,0 +1,87 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model MovieStore.Core.Entities.Movie
+    <section>
+        <!--Grid row 1-->
+        <div class="row mx-1">
+
+            <!--Grid column 1-->
+            <div class="col-lg-4 mb-4">
+                <div class="container-fluid" background-image="@Model.BackdropUrl">
+                    <a>
+                        <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
+                    </a>
+                </div>
+            </div>
+            <!--Grid column 2-->
+            <div class="col-lg-6 mb-4">
+
+                <div class="row mx-1">
+                    <h1>@Model.Title</h1>
+                    <br />
+                    @Model.Tagline
+                    <br />
+                    @Model.Overview
+                </div>
+
+                <div class="row mx-1">
+                    @foreach (var movieGenre in Model.MovieGenres)
+                    {
+                        <a asp-action="Genre" asp-controller="Movies" class="badge badge-pill badge-dark" asp-route-gId="@movieGenre.GenreId">
+                            @movieGenre.Genre.Name
+                        </a>
+
+                    }
+                </div>
+            </div>
+            <!--Grid column 3-->
+            <div class="col-lg-2 mb-4">
+                <button type="button" class="btn btn-primary">Purchase</button>
+                <button type="button" class="btn btn-secondary">Favorite</button>
+                <button type="button" class="btn btn-success">Trailers</button>
+                <button type="button" class="btn btn-danger">LearnMore</button>
+                <button type="button" class="btn btn-warning">TMDB</button>
+                <button type="button" class="btn btn-info">Info</button>
+                <button type="button" class="btn btn-light">Review</button>
+                <button type="button" class="btn btn-dark">Price</button>
+            </div>
+        </div>
+        <!--Grid row 2-->
+        <div class="row mx-1">
+            <!--Grid column 1-->
+            <div class="col-lg-6 mb-4">
+                <h4>MOVIE FACTS</h4>
+                <i class="fade"></i>Release Date: <span class="badge badge-pill badge-primary">@Model.ReleaseDate.Value.ToString("d")</span><br />
+                Run Time:  <span class="badge badge-pill badge-secondary">@Model.RunTime m</span><br />
+                Box Office:  <span class="badge badge-pill badge-success">$ @Model.Revenue</span><br />
+                Budget: <span class="badge badge-pill badge-danger">$ @Model.Budget</span><br />
+            </div>
+            <!--Grid column 2-->
+            <div class="col-lg-6">
+                <h4>CASTS</h4>
+                @foreach (var movie in Model.MovieCasts)
+                {
+                    <div class="row">
+                        <div class="col-lg-4 mb-4">
+                            <a href="#">
+                                <img class="img-fluid rounded-circle" src="@movie.Cast.ProfilePath" alt="@movie.Cast.Name" style="height:80px" />
+                            </a>
+                        </div>
+                        <div class="col-lg-4"><p> @movie.Cast.Name</p></div>
+                        <div class="col-lg-4"><p> @movie.Character</p></div>
+                    </div>
+
+                }
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+    </section>
+<!--Projects section v.4-->

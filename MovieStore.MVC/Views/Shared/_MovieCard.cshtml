@@ -6,7 +6,7 @@
 
 @model MovieStore.Core.Entities.Movie
 <div class="col-6 cl-lg-3 col-sm-4 col-xl-2">
-    <a asp-action="Movie" asp-controller="Movies" class="dropdown-item" asp-route-mId="@Model.Id">
+    <a asp-action="MovieDetail" asp-controller="Movies" class="dropdown-item" asp-route-mId="@Model.Id">
         <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
     </a>
 </div>

@@ -25,7 +25,9 @@ namespace MovieStore.Infrastructure.Repositories
         {
             var movie = await _dbContext.Movies.FindAsync(id);
             movie.Rating = await Task.FromResult<decimal>(_dbContext.Reviews.Where(m => m.MovieId == id).Average(r => r.Rating));
-            movie.MovieCasts = await _dbContext.MovieCasts.Where(m => m.MovieId == id).ToListAsync();
+            movie.MovieCasts = await _dbContext.MovieCasts.Include(mc=>mc.Cast).Where(m => m.MovieId == id).ToListAsync();
+            movie.MovieGenres = await _dbContext.MovieGenres.Include(mg => mg.Genre).Where(m => m.MovieId == id).ToListAsync();
+
             return movie;
             //var movie = await _dbContext.Movies
             //                            .Include(m => m.MovieCasts).ThenInclude(m => m.Cast).Include(m => m.MovieGenres)
