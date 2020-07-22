@@ -6,6 +6,14 @@
     <title>@ViewData["Title"] - MovieStore.MVC</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    @*<link href="~/lib/font-awesome/css/solid.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/regular.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/brands.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/svg-with-js.css" rel="stylesheet" />*@
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    @*<link href="~/lib/font-awesome/css/fontawesome.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/v4-shims.css" rel="stylesheet" />*@
+
 </head>
 <body>
     <header>
@@ -51,7 +59,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 
-    <environment include="Development"> <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" /> </environment>
-    <environment exclude=”Development”> <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" /></environment>
+    @*<environment include="Development"> <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" /> </environment>
+    <environment exclude=”Development”> <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" /></environment>*@
 </body>
 </html>

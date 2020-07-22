@@ -55,17 +55,17 @@
             <!--Grid column 1-->
             <div class="col-lg-6 mb-4">
                 <h4>MOVIE FACTS</h4>
-                <i class="fade"></i>Release Date: <span class="badge badge-pill badge-primary">@Model.ReleaseDate.Value.ToString("d")</span><br />
-                Run Time:  <span class="badge badge-pill badge-secondary">@Model.RunTime m</span><br />
-                Box Office:  <span class="badge badge-pill badge-success">$ @Model.Revenue</span><br />
-                Budget: <span class="badge badge-pill badge-danger">$ @Model.Budget</span><br />
+                <i class="fa fa-calendar"></i> <i class="fa fa-calendar-o"></i>Release Date: <span class="badge badge-pill badge-primary">@Model.ReleaseDate.Value.ToString("d")</span><br />
+                <i class="fa fa-hourglass-half"></i>Run Time:  <span class="badge badge-pill badge-secondary">@Model.RunTime m</span><br />
+                <i class="fa fa-money-bill"></i> Box Office:  <span class="badge badge-pill badge-success">$ @Model.Revenue</span><br />
+                <i class="fa fa-dollar-sign"></i> Budget: <span class="badge badge-pill badge-danger">$ @Model.Budget</span><br />
             </div>
             <!--Grid column 2-->
             <div class="col-lg-6">
                 <h4>CASTS</h4>
                 @foreach (var movie in Model.MovieCasts)
                 {
-                    <div class="row">
+                    <div class="row border-bottom" style="height:80px">
                         <div class="col-lg-4 mb-4">
                             <a href="#">
                                 <img class="img-fluid rounded-circle" src="@movie.Cast.ProfilePath" alt="@movie.Cast.Name" style="height:80px" />
