@@ -13,7 +13,6 @@ namespace MovieStore.Core.ServiceInterfaces
         Task<UserRegisterResponseModel> RegisterUser(UserRegisterRequestModel requestModel);
         Task<UserLoginReponseModel> ValidateUser(string email, string password);
         Task<Purchase> Purchase(PurchaseRequestModel purchaseRequestModel);
-        Task<Review> Review(Review review);
         Task<IEnumerable< Review>> GetUserReview(int userId);
     }
 

@@ -51,10 +51,6 @@ namespace MovieStore.Infrastructure.Services
             return await _purchaseRepository.AddAsync(p);
         }
 
-        //public async Task<Purchase> PurchaseMovieById(int id)
-        //{
-        //    return await _userRepository.PurchaseMovieById(id);
-        //}
 
         public async Task<UserRegisterResponseModel> RegisterUser(UserRegisterRequestModel requestModel)
         {
@@ -103,11 +99,7 @@ namespace MovieStore.Infrastructure.Services
             return response;
         }
 
-        public async Task<Review> Review(Review review)
-        {
-            var createdReview = await _reviewRepository.AddAsync(review);
-            return createdReview;
-        }
+       
 
         public async Task<UserLoginReponseModel> ValidateUser(string email, string password)
         {

@@ -84,10 +84,10 @@ namespace MovieStore.Infrastructure.Data
         {
             modelBuilder.ToTable("Review");
             modelBuilder.HasKey(r => new { r.MovieId, r.UserId });
-            modelBuilder.HasOne(r => r.User).WithMany(u => u.Reviews).HasForeignKey(r => r.UserId);
-            modelBuilder.HasOne(r => r.Movie).WithMany(m => m.Reviews).HasForeignKey(r => r.MovieId);
             modelBuilder.Property(r => r.Rating).IsRequired().HasColumnType("decimal(3,2)");
-            modelBuilder.Property(r => r.ReviewText);
+            modelBuilder.Property(r => r.ReviewText).HasMaxLength(20000);
+            modelBuilder.HasOne(r => r.Movie).WithMany(r => r.Reviews).HasForeignKey(r => r.MovieId);
+            modelBuilder.HasOne(r => r.User).WithMany(p => p.Reviews).HasForeignKey(r => r.UserId);
         }
 
         private void ConfigureFavorite(EntityTypeBuilder<Favorite> modelBuilder)
@@ -186,6 +186,8 @@ namespace MovieStore.Infrastructure.Data
             modelBuilder.HasKey(m => m.Id);
             modelBuilder.Property(m => m.Title).IsRequired().HasMaxLength(256);
             modelBuilder.Property(m => m.Overview).HasMaxLength(4096);
+            modelBuilder.Property(m => m.Budget).HasColumnType("decimal(18, 2)");
+            modelBuilder.Property(m => m.Revenue).HasColumnType("decimal(18, 2)");
             modelBuilder.Property(m => m.Tagline).HasMaxLength(512);
             modelBuilder.Property(m => m.ImdbUrl).HasMaxLength(2084);
             modelBuilder.Property(m => m.TmdbUrl).HasMaxLength(2084);

@@ -38,21 +38,21 @@ namespace MovieStore.MVC.Controllers
 
         private readonly IUserService _userService;
         private readonly IMovieService _movieService;
-        //private readonly IReviewService _reviewService;
-        public UserController(IUserService userService, IMovieService movieService)//, IReviewService reviewService)
+        private readonly IReviewService _reviewService;
+        public UserController(IUserService userService, IMovieService movieService, IReviewService reviewService)
         {
             _userService = userService;
             _movieService = movieService;
-            //_reviewService = reviewService;
+            _reviewService = reviewService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Review(Review review)
+        public async Task<IActionResult> AddReview(Review review)
         {
             if (User.Identity.IsAuthenticated)
             {
                 review.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-                var createdReview = await _userService.Review(review);
+                var createdReview = await _reviewService.AddReview(review);
                 return LocalRedirect("/");
             }
 
