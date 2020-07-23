@@ -18,14 +18,21 @@ namespace MovieStore.Infrastructure.Services
         private readonly ICryptoService _cryptoService;
         private readonly IMovieService _movieService;
         private readonly IReviewRepository _reviewRepository;
+        private readonly IFavoriteRepository _favoriteRepository;
 
-        public UserService(IUserRepository userRepository, IPurchaseRepository purchaseRepository, ICryptoService cryptoService, IMovieService movieService, IReviewRepository reviewRepository)
+        public UserService(IUserRepository userRepository, IPurchaseRepository purchaseRepository, ICryptoService cryptoService, IMovieService movieService, IReviewRepository reviewRepository, IFavoriteRepository favoriteRepository)
         {
             _userRepository = userRepository;
             _cryptoService = cryptoService;
             _movieService = movieService;
             _purchaseRepository = purchaseRepository;
             _reviewRepository = reviewRepository;
+            _favoriteRepository = favoriteRepository;
+        }
+
+        public async Task<Favorite> AddFavorite(Favorite favorite)
+        {
+            return await _favoriteRepository.AddAsync(favorite);
         }
 
         public async Task<IEnumerable<Review>> GetUserReview(int userId)

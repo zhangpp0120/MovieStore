@@ -52,12 +52,12 @@
                 </div>
                 <div>
                     <i class="fa fa-sticky-note"></i>
-                    <a class=" btn btn-primary" asp-action="UserReview" asp-controller="User">My Review</a>
+                    <a class=" btn btn-primary" asp-action="Reviews" asp-controller="User">My Review</a>
                 </div>
                 <button class="btn btn-primary" onclick="openForm()">Write Review</button>
 
                 <div id="myForm" style="display:none">
-                    <form method="post" asp-action="AddReview" asp-controller="User">
+                    <form method="post" asp-action="Review" asp-controller="User">
                         <h1>Review</h1>
 
                         <label for="rate"><b>Rating</b></label>
@@ -73,6 +73,12 @@
 
                     </form>
                 </div>
+                <form method="post" asp-action="Favorite" asp-controller="User">
+
+                    <input type="submit" value="FAVORITE" class="btn btn-primary" />
+                    <input type="hidden" value="@Model.Id" name="MovieId" />
+
+                </form>
 
                 <script>
                     function openForm() {

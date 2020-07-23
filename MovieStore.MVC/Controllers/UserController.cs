@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using MovieStore.Core.Entities;
@@ -18,6 +19,7 @@ namespace MovieStore.MVC.Controllers
         // first check whether the user already bought that movie
         // BUY Buuton in the Movie Details Page will call the above method
         // if user already bought that movie, then replace Buy button with Watch Movie button
+
         // 2. Get all the Movies Purchased by user, loged in User, take userid from HttpContext and get all the movies
         // and give them to Movie Card partial view
         // http:localhost:12112/User/Purchases -- HttpGet
@@ -27,6 +29,7 @@ namespace MovieStore.MVC.Controllers
         // movie rating between 1 and 10 and then save
         // 4. Get all the Reviews done my loged in User,
         // http:localhost:12112/User/reviews -- HttpGet
+
         // 5. Add a Favorite Movie for Loged In User
         // http:localhost:12112/User/Favorite -- HttpPost
         // add another button called favorite, same conecpt as Purchase
@@ -35,6 +38,20 @@ namespace MovieStore.MVC.Controllers
         // http:localhost:12112/User/{123}/movie/{12}/favorite  HttpGet   return boolean
         // 7. Remove favorite
         // http:localhost:12112/User/Favorite -- Httpdelete
+
+
+        // Filters in ASP.NET[Attributes]
+        // Some piece of code that runs either before an controller or action method executes or when some event happens
+        // that run before or after specific stages in the Http Pipeline
+        // 1. Authorization ---
+        // 2. Action Filter
+        // 3. Result Filter
+        // 4. Exception filter, but in real world we used Exception middleware to catch exceptions
+        // 5. Resource filter
+        //  who can call this purchase method???
+        // Only Authorized user, user should have entered his un/pw and valid then only we need to execute this method
+
+
 
         private readonly IUserService _userService;
         private readonly IMovieService _movieService;
@@ -45,35 +62,34 @@ namespace MovieStore.MVC.Controllers
             _movieService = movieService;
             _reviewService = reviewService;
         }
-
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddReview(Review review)
+        public async Task<IActionResult> Favorite(Favorite favorite)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                review.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-                var createdReview = await _reviewService.AddReview(review);
-                return LocalRedirect("/");
-            }
-
-            return LocalRedirect("/Account/Login");
+            favorite.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var createdReview = await _userService.AddFavorite(favorite);
+            return LocalRedirect("/");
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Review (Review review)
+        {
+            review.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var createdReview = await _reviewService.AddReview(review);
+            return LocalRedirect("/");
         }
 
+        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> UserReview()
+        public async Task<IActionResult> Reviews()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var userId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-                var reviews = await _userService.GetUserReview(userId);
+            var userId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var reviews = await _userService.GetUserReview(userId);
 
-                return View(reviews);
-            }
-
-            return LocalRedirect("/Account/Login");
-
+            return View(reviews);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult>Purchase(PurchaseRequestModel purchaseRequestModel)
         {
@@ -87,6 +103,7 @@ namespace MovieStore.MVC.Controllers
             return LocalRedirect("/Account/Login");
             
         }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> MoviePurchased()
         {

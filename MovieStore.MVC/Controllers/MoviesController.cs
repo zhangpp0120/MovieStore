@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Core.ServiceInterfaces;
+using MovieStore.MVC.Filters;
 using MovieStore.MVC.Models;
 
 namespace MovieStore.MVC.Controllers
@@ -77,8 +78,9 @@ namespace MovieStore.MVC.Controllers
             return View(movies);
         }
 
-
+        [MovieStoreFilter]
         [HttpGet]
+        // mId here is called Query string  ?mId = 20
         public async Task<IActionResult> MovieDetail(int mId)
         {
             var movieDetails = await _movieService.GetMovieById(mId);

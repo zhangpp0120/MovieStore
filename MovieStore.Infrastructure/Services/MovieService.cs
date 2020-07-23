@@ -26,6 +26,8 @@ namespace MovieStore.Infrastructure.Services
 
         public async Task<Movie> GetMovieById(int id)  
         {
+            // add cache access by id or by 10 most popular;
+            // like genres
             return await _movieRepository.GetByIdAsync(id);
         }
 

@@ -38,6 +38,8 @@ namespace MovieStore.MVC
             services.AddDbContext<MovieStoreDbContext>(options=>
                 options.UseSqlServer(Configuration.GetConnectionString("MovieStoreDbConnection")));
 
+            services.AddMemoryCache();
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(
                 options => { options.Cookie.Name = "MovieStoreAuthCookie";
@@ -57,7 +59,7 @@ namespace MovieStore.MVC
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IReviewService, ReviewService>();
-
+            services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 
         }
 
@@ -66,9 +68,9 @@ namespace MovieStore.MVC
         {
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
                 // self defined middleware.
-                app.UseMovieStoreExceptionMiddleware();
+                //app.UseMovieStoreExceptionMiddleware();
             }
             else
             {

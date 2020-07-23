@@ -14,6 +14,7 @@ namespace MovieStore.Core.ServiceInterfaces
         Task<UserLoginReponseModel> ValidateUser(string email, string password);
         Task<Purchase> Purchase(PurchaseRequestModel purchaseRequestModel);
         Task<IEnumerable< Review>> GetUserReview(int userId);
+        Task<Favorite> AddFavorite(Favorite favorite);
     }
 
 
