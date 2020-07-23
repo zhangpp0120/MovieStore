@@ -12,9 +12,10 @@ namespace MovieStore.Core.RepositoryInterfaces
 
         Task<IEnumerable<Movie>> GetTop25RatedMovies();
 
-        Task<IEnumerable<Movie>> GetMoviesByGenreId(int gId);
-        Task<decimal> GetMovieRatingById(int mId);
-        Task<IEnumerable<MovieCast>> GetMovieCastsById(int mId);
+        Task<IEnumerable<Movie>> GetMoviesByGenreId(int genreId);
+        Task<decimal> GetMovieRatingById(int movieId);
+        Task<IEnumerable<MovieCast>> GetMovieCastsById(int movieId);
+        Task<IEnumerable<Movie>> GetMovieByUser(int userId);
     }
 
     // IAsyncRepository has 8 methods

@@ -47,6 +47,12 @@ namespace MovieStore.Infrastructure.Repositories
             return movies;
         }
 
+        public async Task<IEnumerable<Movie>> GetMovieByUser(int userId)
+        {
+            var movies = await (from m in _dbContext.Movies join p in _dbContext.Purchases on m.Id equals p.MovieId where p.UserId == userId select m).ToListAsync();
+            return movies;
+        }
+
         public async Task<IEnumerable<MovieCast>> GetMovieCastsById(int mId)
         {
             //sql

@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using MovieStore.Core.Entities;
+using MovieStore.Core.Models.Request;
+using MovieStore.Core.ServiceInterfaces;
 
 namespace MovieStore.MVC.Controllers
 {
@@ -30,9 +35,71 @@ namespace MovieStore.MVC.Controllers
         // http:localhost:12112/User/{123}/movie/{12}/favorite  HttpGet   return boolean
         // 7. Remove favorite
         // http:localhost:12112/User/Favorite -- Httpdelete
-        public IActionResult Index()
+
+        private readonly IUserService _userService;
+        private readonly IMovieService _movieService;
+        //private readonly IReviewService _reviewService;
+        public UserController(IUserService userService, IMovieService movieService)//, IReviewService reviewService)
         {
-            return View();
+            _userService = userService;
+            _movieService = movieService;
+            //_reviewService = reviewService;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Review(Review review)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                review.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                var createdReview = await _userService.Review(review);
+                return LocalRedirect("/");
+            }
+
+            return LocalRedirect("/Account/Login");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UserReview()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                var reviews = await _userService.GetUserReview(userId);
+
+                return View(reviews);
+            }
+
+            return LocalRedirect("/Account/Login");
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult>Purchase(PurchaseRequestModel purchaseRequestModel)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                purchaseRequestModel.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+
+                var moviePurchased = await _userService.Purchase(purchaseRequestModel);
+                return LocalRedirect("/");
+            }
+            return LocalRedirect("/Account/Login");
+            
+        }
+        [HttpGet]
+        public async Task<IActionResult> MoviePurchased()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                var movies = await _movieService.GetMovieByUser(userId);
+
+                return View("/Views/Movies/Genre.cshtml", movies);
+            }
+
+            return LocalRedirect("/Account/Login");
+
         }
     }
 }

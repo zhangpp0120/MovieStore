@@ -7,7 +7,7 @@
 @model MovieStore.Core.Entities.Movie
     <section>
         <!--Grid row 1-->
-        <div class="row mx-1">
+        <div class="row mx-1" style="height:513px">
 
             <!--Grid column 1-->
             <div class="col-lg-4 mb-4">
@@ -27,27 +27,62 @@
                     <br />
                     @Model.Overview
                 </div>
-
+                <br />
                 <div class="row mx-1">
                     @foreach (var movieGenre in Model.MovieGenres)
                     {
                         <a asp-action="Genre" asp-controller="Movies" class="badge badge-pill badge-dark" asp-route-gId="@movieGenre.GenreId">
                             @movieGenre.Genre.Name
                         </a>
-
                     }
                 </div>
             </div>
             <!--Grid column 3-->
             <div class="col-lg-2 mb-4">
-                <button type="button" class="btn btn-primary">Purchase</button>
-                <button type="button" class="btn btn-secondary">Favorite</button>
-                <button type="button" class="btn btn-success">Trailers</button>
-                <button type="button" class="btn btn-danger">LearnMore</button>
-                <button type="button" class="btn btn-warning">TMDB</button>
-                <button type="button" class="btn btn-info">Info</button>
-                <button type="button" class="btn btn-light">Review</button>
-                <button type="button" class="btn btn-dark">Price</button>
+                <form method="post" asp-action="Purchase" asp-controller="User">
+
+                    <i class="fa fa-shopping-cart"></i>
+                    <input type="submit" value="BUY" class="btn btn-primary" />
+                    <input type="hidden" value="@Model.Id" name="MovieId" />
+
+                </form>
+                <div>
+                    <i class="fa fa-film"></i>
+                    <a class=" btn btn-primary" asp-action="MoviePurchased" asp-controller="User">My Movie</a>
+                </div>
+                <div>
+                    <i class="fa fa-sticky-note"></i>
+                    <a class=" btn btn-primary" asp-action="UserReview" asp-controller="User">My Review</a>
+                </div>
+                <button class="btn btn-primary" onclick="openForm()">Open Form</button>
+
+                <div id="myForm" style="display:none">
+                    <form method="post" asp-action="Review" asp-controller="User">
+                        <h1>Review</h1>
+
+                        <label for="rate"><b>Rating</b></label>
+                        <input type="text" placeholder="Rate the movie out of 10" name="Rating" required>
+
+                        <label for="txt_review"><b>Review</b></label>
+                        <input type="text" placeholder="Enter your review here." name="ReviewText" required>
+
+                        <input type="hidden" value="@Model.Id" name="MovieId" />
+
+                        <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                        <button type="submit" class="btn">Submit</button>
+
+                    </form>
+                </div>
+
+                <script>
+                    function openForm() {
+                        document.getElementById("myForm").style.display = "block";
+                    }
+
+                    function closeForm() {
+                        document.getElementById("myForm").style.display = "none";
+                    }
+                </script>
             </div>
         </div>
         <!--Grid row 2-->

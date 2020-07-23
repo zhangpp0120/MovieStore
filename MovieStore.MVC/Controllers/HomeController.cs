@@ -59,5 +59,12 @@ namespace MovieStore.MVC.Controllers
             //var movies1 = await _moiveService.GetTop25RatedMovies();
             return View(movies);
         }
+
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel{
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            });
+        }
     }
 }

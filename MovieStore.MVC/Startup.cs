@@ -15,6 +15,7 @@ using MovieStore.Core.ServiceInterfaces;
 using MovieStore.Infrastructure.Data;
 using MovieStore.Infrastructure.Repositories;
 using MovieStore.Infrastructure.Services;
+using MovieStore.MVC.Helpers;
 
 namespace MovieStore.MVC
 {
@@ -53,7 +54,9 @@ namespace MovieStore.MVC
             services.AddScoped<ICryptoService, CryptoService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
-           
+            services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+
 
         }
 
@@ -62,7 +65,9 @@ namespace MovieStore.MVC
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
+                // self defined middleware.
+                app.UseMovieStoreExceptionMiddleware();
             }
             else
             {

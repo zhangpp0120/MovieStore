@@ -14,14 +14,47 @@ namespace MovieStore.Infrastructure.Services
     public class UserService: IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPurchaseRepository _purchaseRepository;
         private readonly ICryptoService _cryptoService;
+        private readonly IMovieService _movieService;
+        private readonly IReviewRepository _reviewRepository;
 
-        public UserService(IUserRepository userRepository, ICryptoService cryptoService)
+        public UserService(IUserRepository userRepository, IPurchaseRepository purchaseRepository, ICryptoService cryptoService, IMovieService movieService, IReviewRepository reviewRepository)
         {
             _userRepository = userRepository;
             _cryptoService = cryptoService;
+            _movieService = movieService;
+            _purchaseRepository = purchaseRepository;
+            _reviewRepository = reviewRepository;
         }
 
+        public async Task<IEnumerable<Review>> GetUserReview(int userId)
+        {
+            var reviews = await _reviewRepository.GetUserReview(userId);
+            return reviews;
+        }
+
+        public async Task<Purchase> Purchase(PurchaseRequestModel purchaseRequestModel)
+        {
+            
+            var movie = await _movieService.GetMovieById(purchaseRequestModel.MovieId);
+          
+            var p = new Purchase
+            {
+                UserId = purchaseRequestModel.UserId,
+                PurchaseNumber =purchaseRequestModel.PurchaseNumber.Value,
+                TotalPrice = movie.Price.Value,
+                MovieId = purchaseRequestModel.MovieId,
+                PurchaseDateTime = purchaseRequestModel.PurchaseDate.Value,
+                            
+            };
+            return await _purchaseRepository.AddAsync(p);
+        }
+
+        //public async Task<Purchase> PurchaseMovieById(int id)
+        //{
+        //    return await _userRepository.PurchaseMovieById(id);
+        //}
 
         public async Task<UserRegisterResponseModel> RegisterUser(UserRegisterRequestModel requestModel)
         {
@@ -68,6 +101,12 @@ namespace MovieStore.Infrastructure.Services
             };
 
             return response;
+        }
+
+        public async Task<Review> Review(Review review)
+        {
+            var createdReview = await _reviewRepository.AddAsync(review);
+            return createdReview;
         }
 
         public async Task<UserLoginReponseModel> ValidateUser(string email, string password)
