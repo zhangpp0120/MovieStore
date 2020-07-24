@@ -127,5 +127,6 @@ namespace MovieStore.MVC.Controllers
             return View("/Views/Movies/Genre.cshtml", movies);
 
         }
+
     }
 }

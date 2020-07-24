@@ -18,7 +18,7 @@
             </div>
         </div>
         <!--Grid column 2-->
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-5 mb-4">
 
             <div class="row mx-1" style="color:white">
                 <h1>@Model.Movie.Title</h1>
@@ -38,15 +38,15 @@
             </div>
         </div>
         <!--Grid column 3-->
-        <div class="col-lg-2 mb-4">
+        <div class="col-lg-3 mb-4" style="text-align:right">
             <div>
                 @if (Model.Purchased)
                 {
                     @*<form method="post" asp-action="Watch" asp-controller="User">
-                <i class="fa fa-play-circle" aria-hidden="true"></i>
-                <input type="submit" value="Watch" class="btn btn-primary" />
-                <input type="hidden" value="@Model.Movie" name="movie" />
-            </form>*@
+                    <i class="fa fa-play-circle" aria-hidden="true"></i>
+                    <input type="submit" value="Watch" class="btn btn-primary" />
+                    <input type="hidden" value="@Model.Movie" name="movie" />
+                </form>*@
                     <i class="fa fa-play-circle" aria-hidden="true"></i>
                     <a class=" btn btn-primary" asp-action="Watch" asp-controller="Movies" asp-route-movieId="@Model.Movie.Id">Watch Movie</a>
                 }
@@ -63,6 +63,11 @@
             <div>
                 <i class="fa fa-film"></i>
                 <a class=" btn btn-primary" asp-action="MoviePurchased" asp-controller="User">My Movie</a>
+            </div>
+
+            <div>
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <a class=" btn btn-primary" asp-action="MyFavorite" asp-controller="User">My Favorite</a>
             </div>
 
             <div>
@@ -94,14 +99,19 @@
             </div>
 
             <div id="myForm" style="display:none">
-                <form method="post" asp-action="Review" asp-controller="User">
+                <form method="post" asp-action="Review" asp-controller="User" style="text-align:left">
                     <h3>Review</h3>
 
-                    <label for="rate"><b>Rating</b></label>
-                    <input type="number" placeholder="Rate the movie out of 10" name="Rating" min="1" max="9.99" step=0.01 required>
+                    <div>
+                        <label for="rate"><b>Rating</b></label>
+                        <input type="number" placeholder="10 Max" name="Rating" min="1" max="9.99" step=0.01 size="50" required>
+                    </div>
 
-                    <label for="txt_review"><b>Review</b></label>
-                    <input type="text" placeholder="Enter your review here." name="ReviewText" required>
+                    <div>
+                        <label for="txt_review"><b>Review</b></label>
+                        @*<input type="text" placeholder="Enter your review here." name="ReviewText" required>*@
+                        <textarea name="ReviewText" rows="5" cols="30">Enter your review here.</textarea>
+                    </div>
 
                     <input type="hidden" value="@Model.Movie.Id" name="MovieId" />
 

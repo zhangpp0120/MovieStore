@@ -15,7 +15,7 @@
             @User.Claims.FirstOrDefault(c=> c.Type == System.Security.Claims.ClaimTypes.GivenName).Value
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
-            <a class="dropdown-item">Library (myMoviesCount)</a>
+            <a class="dropdown-item" asp-controller="User" asp-action="MoviePurchased">Library (myMoviesCount)</a>
             <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Log Out</a>
             <a class="dropdown-item">My Account</a>
         </div>
