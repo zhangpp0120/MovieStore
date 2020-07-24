@@ -15,6 +15,8 @@ namespace MovieStore.Core.ServiceInterfaces
         Task<Purchase> Purchase(PurchaseRequestModel purchaseRequestModel);
         Task<IEnumerable< Review>> GetUserReview(int userId);
         Task<Favorite> AddFavorite(Favorite favorite);
+        Task DeleteFavorite(Favorite favorite);
+        Task<bool> IsFavorite(Favorite favorite);
     }
 
 

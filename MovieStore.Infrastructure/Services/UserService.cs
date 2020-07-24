@@ -35,10 +35,20 @@ namespace MovieStore.Infrastructure.Services
             return await _favoriteRepository.AddAsync(favorite);
         }
 
+        public async Task DeleteFavorite(Favorite favorite)
+        {
+            await _favoriteRepository.DeleteFavorite(favorite);
+        }
+
         public async Task<IEnumerable<Review>> GetUserReview(int userId)
         {
             var reviews = await _reviewRepository.GetUserReview(userId);
             return reviews;
+        }
+
+        public async Task<bool> IsFavorite(Favorite favorite)
+        {
+            return await _favoriteRepository.CheckFavorite(favorite);
         }
 
         public async Task<Purchase> Purchase(PurchaseRequestModel purchaseRequestModel)

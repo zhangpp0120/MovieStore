@@ -4,125 +4,157 @@
 @{
 }
 
-@model MovieStore.Core.Entities.Movie
-    <section>
-        <!--Grid row 1-->
-        <div class="row mx-1" style="height:513px">
+@model MovieStore.Core.Models.Request.MovieRequestModel
+<section>
+    <!--Grid row 1-->
+    <div class="row mx-1" style="height:513px">
 
-            <!--Grid column 1-->
-            <div class="col-lg-4 mb-4">
-                <div class="container-fluid" background-image="@Model.BackdropUrl">
-                    <a>
-                        <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
-                    </a>
-                </div>
-            </div>
-            <!--Grid column 2-->
-            <div class="col-lg-6 mb-4">
-
-                <div class="row mx-1">
-                    <h1>@Model.Title</h1>
-                    <br />
-                    @Model.Tagline
-                    <br />
-                    @Model.Overview
-                </div>
-                <br />
-                <div class="row mx-1">
-                    @foreach (var movieGenre in Model.MovieGenres)
-                    {
-                        <a asp-action="Genre" asp-controller="Movies" class="badge badge-pill badge-dark" asp-route-gId="@movieGenre.GenreId">
-                            @movieGenre.Genre.Name
-                        </a>
-                    }
-                </div>
-            </div>
-            <!--Grid column 3-->
-            <div class="col-lg-2 mb-4">
-                <form method="post" asp-action="Purchase" asp-controller="User">
-
-                    <i class="fa fa-shopping-cart"></i>
-                    <input type="submit" value="BUY" class="btn btn-primary" />
-                    <input type="hidden" value="@Model.Id" name="MovieId" />
-
-                </form>
-                <div>
-                    <i class="fa fa-film"></i>
-                    <a class=" btn btn-primary" asp-action="MoviePurchased" asp-controller="User">My Movie</a>
-                </div>
-                <div>
-                    <i class="fa fa-sticky-note"></i>
-                    <a class=" btn btn-primary" asp-action="Reviews" asp-controller="User">My Review</a>
-                </div>
-                <button class="btn btn-primary" onclick="openForm()">Write Review</button>
-
-                <div id="myForm" style="display:none">
-                    <form method="post" asp-action="Review" asp-controller="User">
-                        <h1>Review</h1>
-
-                        <label for="rate"><b>Rating</b></label>
-                        <input type="text" placeholder="Rate the movie out of 10" name="Rating" min="1" max="9.99" required>
-
-                        <label for="txt_review"><b>Review</b></label>
-                        <input type="text" placeholder="Enter your review here." name="ReviewText" required>
-
-                        <input type="hidden" value="@Model.Id" name="MovieId" />
-
-                        <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
-                        <button type="submit" class="btn">Submit</button>
-
-                    </form>
-                </div>
-                <form method="post" asp-action="Favorite" asp-controller="User">
-
-                    <input type="submit" value="FAVORITE" class="btn btn-primary" />
-                    <input type="hidden" value="@Model.Id" name="MovieId" />
-
-                </form>
-
-                <script>
-                    function openForm() {
-                        document.getElementById("myForm").style.display = "block";
-                    }
-
-                    function closeForm() {
-                        document.getElementById("myForm").style.display = "none";
-                    }
-                </script>
+        <!--Grid column 1-->
+        <div class="col-lg-4 mb-4">
+            <div class="container-fluid" background-image="@Model.Movie.BackdropUrl">
+                <a>
+                    <img src="@Model.Movie.PosterUrl" class="img-fluid" alt="@Model.Movie.Title" />
+                </a>
             </div>
         </div>
-        <!--Grid row 2-->
-        <div class="row mx-1">
-            <!--Grid column 1-->
-            <div class="col-lg-6 mb-4">
-                <h4>MOVIE FACTS</h4>
-                <i class="fa fa-calendar"></i> <i class="fa fa-calendar-o"></i>Release Date: <span class="badge badge-pill badge-primary">@Model.ReleaseDate.Value.ToString("d")</span><br />
-                <i class="fa fa-hourglass-half"></i>Run Time:  <span class="badge badge-pill badge-secondary">@Model.RunTime m</span><br />
-                <i class="fa fa-money-bill"></i> Box Office:  <span class="badge badge-pill badge-success">$ @Model.Revenue</span><br />
-                <i class="fa fa-dollar-sign"></i> Budget: <span class="badge badge-pill badge-danger">$ @Model.Budget</span><br />
-            </div>
-            <!--Grid column 2-->
-            <div class="col-lg-6">
-                <h4>CASTS</h4>
-                @foreach (var movie in Model.MovieCasts)
-                {
-                    <div class="row border-bottom" style="height:80px">
-                        <div class="col-lg-4 mb-4">
-                            <a href="#">
-                                <img class="img-fluid rounded-circle" src="@movie.Cast.ProfilePath" alt="@movie.Cast.Name" style="height:80px" />
-                            </a>
-                        </div>
-                        <div class="col-lg-4"><p> @movie.Cast.Name</p></div>
-                        <div class="col-lg-4"><p> @movie.Character</p></div>
-                    </div>
+        <!--Grid column 2-->
+        <div class="col-lg-6 mb-4">
 
+            <div class="row mx-1">
+                <h1>@Model.Movie.Title</h1>
+                <br />
+                @Model.Movie.Tagline
+                <br />
+                @Model.Movie.Overview
+            </div>
+            <br />
+            <div class="row mx-1">
+                @foreach (var movieGenre in Model.Movie.MovieGenres)
+                {
+                    <a asp-action="Genre" asp-controller="Movies" class="badge badge-pill badge-dark" asp-route-gId="@movieGenre.GenreId">
+                        @movieGenre.Genre.Name
+                    </a>
+                }
+            </div>
+        </div>
+        <!--Grid column 3-->
+        <div class="col-lg-2 mb-4">
+            <div>
+                @if (Model.Purchased)
+                {
+                    @*<form method="post" asp-action="Watch" asp-controller="User">
+                <i class="fa fa-play-circle" aria-hidden="true"></i>
+                <input type="submit" value="Watch" class="btn btn-primary" />
+                <input type="hidden" value="@Model.Movie" name="movie" />
+            </form>*@
+                    <i class="fa fa-play-circle" aria-hidden="true"></i>
+                    <a class=" btn btn-primary" asp-action="Watch" asp-controller="Movies" asp-route-movieId="@Model.Movie.Id">Watch Movie</a>
+                }
+                else
+                {
+                    <form method="post" asp-action="Purchase" asp-controller="User">
+                        <i class="fa fa-shopping-cart"></i>
+                        <input type="submit" value="Purchase" class="btn btn-primary" />
+                        <input type="hidden" value="@Model.Movie.Id" name="MovieId" />
+                    </form>
+                }
+            </div>
+
+            <div>
+                <i class="fa fa-film"></i>
+                <a class=" btn btn-primary" asp-action="MoviePurchased" asp-controller="User">My Movie</a>
+            </div>
+
+            <div>
+                <i class="fa fa-sticky-note"></i>
+                <a class=" btn btn-primary" asp-action="Reviews" asp-controller="User">My Review</a>
+            </div>
+            <div>
+                @if (Model.Favorited)
+                {
+                    <form method="post" asp-action="UnFavorite" asp-controller="User">
+                        <i class="fa fa-heart" aria-hidden="true"></i>
+                        <input type="submit" value="Favorite" class="btn btn-primary" />
+                        <input type="hidden" value="@Model.Movie.Id" name="MovieId" />
+                    </form>
+                }
+                else
+                {
+                    <form method="post" asp-action="Favorite" asp-controller="User">
+                        <i class="fa fa-heart-o" aria-hidden="true"></i>
+                        <input type="submit" value="Favorite" class="btn btn-primary" />
+                        <input type="hidden" value="@Model.Movie.Id" name="MovieId" />
+                    </form>
+                }
+            </div>
+
+            <div>
+                <i class="fa fa-star"></i>
+                <a class="btn btn-primary" onclick="openForm()" style="color:white">Write Review</a>
+            </div>
+
+            <div id="myForm" style="display:none">
+                <form method="post" asp-action="Review" asp-controller="User">
+                    <h3>Review</h3>
+
+                    <label for="rate"><b>Rating</b></label>
+                    <input type="number" placeholder="Rate the movie out of 10" name="Rating" min="1" max="9.99" step=0.01 required>
+
+                    <label for="txt_review"><b>Review</b></label>
+                    <input type="text" placeholder="Enter your review here." name="ReviewText" required>
+
+                    <input type="hidden" value="@Model.Movie.Id" name="MovieId" />
+
+                    <button type="button" class="btn cancel btn-primary" onclick="closeForm()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                </form>
+            </div>
+
+
+            <script>
+                function openForm() {
+                    document.getElementById("myForm").style.display = "block";
                 }
 
-            </div>
-            <!--Grid column-->
+                function closeForm() {
+                    document.getElementById("myForm").style.display = "none";
+                }
+            </script>
+        </div>
+    </div>
+    <!--Grid row 2-->
+    <div class="row mx-1">
+        <!--Grid column 1-->
+        <div class="col-lg-6 mb-4">
+            <h4>MOVIE FACTS</h4>
+            <i class="fa fa-calendar"></i> <i class="fa fa-calendar-o"></i>Release Date: <span class="badge badge-pill badge-primary">@Model.Movie.ReleaseDate.Value.ToString("d")</span><br />
+            <i class="fa fa-hourglass-half"></i>Run Time:  <span class="badge badge-pill badge-secondary">@Model.Movie.RunTime m</span><br />
+            <i class="fa fa-money-bill"></i> Box Office:  <span class="badge badge-pill badge-success">$ @Model.Movie.Revenue</span><br />
+            <i class="fa fa-dollar-sign"></i> Budget: <span class="badge badge-pill badge-danger">$ @Model.Movie.Budget</span><br />
+        </div>
+        <!--Grid column 2-->
+        <div class="col-lg-6">
+            <h4>CASTS</h4>
+            @foreach (var movie in Model.Movie.MovieCasts)
+            {
+                <div class="row border-bottom" style="height:80px">
+                    <div class="col-lg-4 mb-4">
+                        <a href="#">
+                            <img class="img-fluid rounded-circle" src="@movie.Cast.ProfilePath" alt="@movie.Cast.Name" style="height:80px" />
+                        </a>
+                    </div>
+                    <div class="col-lg-4"><p> @movie.Cast.Name</p></div>
+                    <div class="col-lg-4"><p> @movie.Character</p></div>
+                </div>
+
+            }
 
         </div>
-        <!--Grid row-->
+        <!--Grid column-->
 
-    </section>
+    </div>
+    <!--Grid row-->
+
+</section>
 <!--Projects section v.4-->

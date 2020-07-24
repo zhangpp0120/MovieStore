@@ -24,6 +24,11 @@ namespace MovieStore.Infrastructure.Services
             return await _movieRepository.AddAsync(movie);
         }
 
+        public async Task<IEnumerable<Movie>> GetFavoriteMovieByUser(int userId)
+        {
+            return await _movieRepository.GetFavoriteMovieByUser(userId);
+        }
+
         public async Task<Movie> GetMovieById(int id)  
         {
             // add cache access by id or by 10 most popular;
@@ -64,6 +69,16 @@ namespace MovieStore.Infrastructure.Services
         public async Task<IEnumerable<Movie>> GetTop25RatedMovies()  // this is homwork to use LinQ
         {
             return await _movieRepository.GetTop25RatedMovies();
+        }
+
+        public async  Task<bool> IsMovieFavorited(Favorite favorite)
+        {
+            return await _movieRepository.IsMovieFavorited(favorite);
+        }
+
+        public async Task<bool> IsMoviePurchased(Purchase purchase)
+        {
+            return await _movieRepository.IsMoviePurchased(purchase);
         }
 
         public async Task<Movie> UpdateMovie(Movie movie)

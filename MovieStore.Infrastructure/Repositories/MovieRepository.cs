@@ -41,6 +41,12 @@ namespace MovieStore.Infrastructure.Repositories
 
         }
 
+        public async Task<IEnumerable<Movie>> GetFavoriteMovieByUser(int userId)
+        {
+            var movies = await(from m in _dbContext.Movies join f in _dbContext.Favorites on m.Id equals f.MovieId where f.UserId == userId select m).ToListAsync();
+            return movies;
+        }
+
         public async Task<IEnumerable<Movie>> GetHighestRevenueMovie()
         {
             var movies = await _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(25).ToListAsync();
@@ -92,6 +98,18 @@ namespace MovieStore.Infrastructure.Repositories
             //var movies = await _dbContext.Movies.OrderByDescending(g =>g.Reviews.Average(r => r.Rating)).Take(25).ToListAsync();
 
             return (IEnumerable<Movie>)movies;
+        }
+
+        public async Task<bool> IsMovieFavorited(Favorite favorite)
+        {
+            var movieId = await (from f in _dbContext.Favorites where f.UserId==favorite.UserId select f.MovieId).ToListAsync();
+            return movieId.Contains(favorite.MovieId);
+        }
+
+        public async Task<bool> IsMoviePurchased(Purchase purchase)
+        {
+            var movieId = await (from p in _dbContext.Purchases where p.UserId == purchase.UserId select p.MovieId).ToListAsync();
+            return movieId.Contains(purchase.MovieId);
         }
     }
 }

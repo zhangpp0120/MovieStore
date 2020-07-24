@@ -16,6 +16,10 @@ namespace MovieStore.Core.RepositoryInterfaces
         Task<decimal> GetMovieRatingById(int movieId);
         Task<IEnumerable<MovieCast>> GetMovieCastsById(int movieId);
         Task<IEnumerable<Movie>> GetMovieByUser(int userId);
+        Task<IEnumerable<Movie>> GetFavoriteMovieByUser(int userId);
+
+        Task<bool> IsMovieFavorited(Favorite favorite);
+        Task<bool> IsMoviePurchased(Purchase purchase);
     }
 
     // IAsyncRepository has 8 methods

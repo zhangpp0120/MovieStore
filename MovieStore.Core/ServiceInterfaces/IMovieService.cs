@@ -19,6 +19,10 @@ namespace MovieStore.Core.ServiceInterfaces
         Task<decimal> GetMovieRatingById(int movieId);
         Task<IEnumerable<MovieCast>> GetMovieCastsById(int movieId);
         Task<IEnumerable<Movie>> GetMovieByUser(int userId);
+        Task<IEnumerable<Movie>> GetFavoriteMovieByUser(int userId);
+
+        Task<bool> IsMoviePurchased(Purchase purchase);
+        Task<bool> IsMovieFavorited(Favorite favorite);
 
     }
 }

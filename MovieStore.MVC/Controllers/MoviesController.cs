@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MovieStore.Core.Entities;
+using MovieStore.Core.Models.Request;
 using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Core.ServiceInterfaces;
 using MovieStore.MVC.Filters;
@@ -16,6 +19,7 @@ namespace MovieStore.MVC.Controllers
         // in .net Framework we needt to rely on third-party IOC to do Dependency  Injection, Autofac, Ninject.
 
         private readonly IMovieService _movieService;
+        //private readonly IFavoriteRepository _favoriteRepository;
 
         public MoviesController(IMovieService movieService)
         {
@@ -83,8 +87,42 @@ namespace MovieStore.MVC.Controllers
         // mId here is called Query string  ?mId = 20
         public async Task<IActionResult> MovieDetail(int mId)
         {
-            var movieDetails = await _movieService.GetMovieById(mId);
-            return View(movieDetails);
+            var m = new MovieRequestModel
+            {
+                Movie = await _movieService.GetMovieById(mId),
+                Purchased = false,
+                Favorited = false
+            };
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                var favorite = new Favorite
+                {
+                    MovieId = mId,
+                    UserId = userId
+                };
+
+                var purchase = new Purchase
+                {
+                    MovieId = mId,
+                    UserId = userId
+                };
+
+                m.Purchased = await _movieService.IsMoviePurchased(purchase);
+                m.Favorited = await _movieService.IsMovieFavorited(favorite);
+            }
+
+            return View(m);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Watch(int movieId)
+        {
+            // watch movie
+            var movie = await _movieService.GetMovieById(movieId);
+            return View(movie);
+        }
+
     }
 }

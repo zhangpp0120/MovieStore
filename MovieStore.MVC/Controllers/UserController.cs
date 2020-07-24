@@ -29,7 +29,6 @@ namespace MovieStore.MVC.Controllers
         // movie rating between 1 and 10 and then save
         // 4. Get all the Reviews done my loged in User,
         // http:localhost:12112/User/reviews -- HttpGet
-
         // 5. Add a Favorite Movie for Loged In User
         // http:localhost:12112/User/Favorite -- HttpPost
         // add another button called favorite, same conecpt as Purchase
@@ -62,13 +61,32 @@ namespace MovieStore.MVC.Controllers
             _movieService = movieService;
             _reviewService = reviewService;
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> MyFavorite()
+        {
+            var userId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var favoriteMovies = await _movieService.GetFavoriteMovieByUser(userId);
+            return View("/Views/Movies/Genre.cshtml",favoriteMovies);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> UnFavorite(Favorite favorite)
+        {
+            favorite.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            await _userService.DeleteFavorite(favorite);
+            return LocalRedirect("/User/MyFavorite");
+        }
+
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Favorite(Favorite favorite)
         {
             favorite.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var createdReview = await _userService.AddFavorite(favorite);
-            return LocalRedirect("/");
+            return LocalRedirect("/User/MyFavorite");
         }
         [Authorize]
         [HttpPost]
@@ -93,29 +111,20 @@ namespace MovieStore.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult>Purchase(PurchaseRequestModel purchaseRequestModel)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                purchaseRequestModel.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            purchaseRequestModel.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-                var moviePurchased = await _userService.Purchase(purchaseRequestModel);
-                return LocalRedirect("/");
-            }
-            return LocalRedirect("/Account/Login");
-            
+            var moviePurchased = await _userService.Purchase(purchaseRequestModel);
+            return LocalRedirect("/");
+
         }
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> MoviePurchased()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var userId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-                var movies = await _movieService.GetMovieByUser(userId);
+            var userId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var movies = await _movieService.GetMovieByUser(userId);
 
-                return View("/Views/Movies/Genre.cshtml", movies);
-            }
-
-            return LocalRedirect("/Account/Login");
+            return View("/Views/Movies/Genre.cshtml", movies);
 
         }
     }
