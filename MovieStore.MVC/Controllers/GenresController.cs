@@ -11,7 +11,7 @@ namespace MovieStore.MVC.Controllers
     {
         private readonly IGenreService _genreService;
         //private readonly IMovieService _movieService;
-        public GenresController(IGenreService genreService, IMovieService movieService)
+        public GenresController(IGenreService genreService)
         {
             _genreService = genreService;
             //_movieService = movieService;
