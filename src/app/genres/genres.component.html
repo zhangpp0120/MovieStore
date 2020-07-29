@@ -1,1 +1,13 @@
 <p>genres works!</p>
+<!-- directives, they help us make our HTML even powerful with some custom attributes -->
+<!-- <input type='text' class="" name="" id=""/> -->
+<!-- structural directives,  ngFor, ngIf and ngSwitch -->
+
+<ul>
+    // angular 8 snippets works here for ngFor
+    <li *ngFor="let genre of genres">
+        <a href="#">
+            {{genre.name}}
+        </a>
+    </li>
+</ul>

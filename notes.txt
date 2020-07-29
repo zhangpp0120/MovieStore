@@ -1,0 +1,13 @@
+we need to make Ajax calls from Anglualr to  API to get data.
+XMLHttpRequest   js
+HttpClient(angular)-> it will use XMLHttpRequest behind the scenes (XHR)
+
+asp.net --> controller(MVC and API) --> service (class libraries) --> Repositories(class libaries) --> database
+we usually separate our angular application code into different feature folders to organize and reuse our code properly
+
+angular -> components -> services(resuealbe) -> HttpClient -> API (JSON)
+--> services will get that to components and components will return model to the views, so that views can display that data.
+
+we create a base API service that will have common CRUD operations () so that specific services MovieService, GenreService etc can talk to API 
+
+A service is nothing but a TypeScript class that has @jnjectable decorator, so that we can use it with DI. 
