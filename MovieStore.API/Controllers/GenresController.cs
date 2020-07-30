@@ -19,7 +19,7 @@ namespace MovieStore.API.Controllers
             //_movieService = movieService;
         }
         [HttpGet]
-        [Route("index")]
+        [Route("")]
         public async Task<IActionResult> Index()
         {
             var movies = await _genreService.GetAllGenres();

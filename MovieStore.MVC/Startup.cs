@@ -78,7 +78,6 @@ namespace MovieStore.MVC
             }
             // middleware order matters.
             // you can create your own custom middleware.
-
             app.UseStaticFiles();
 
             app.UseRouting();

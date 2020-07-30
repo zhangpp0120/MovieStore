@@ -75,6 +75,13 @@ namespace MovieStore.API
                 //app.UseDeveloperExceptionPage();
                 app.UseMovieStoreExceptionMiddleware();
             }
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins(Configuration.GetValue<string>("clientSPAUrl")).AllowAnyHeader()
+                     .AllowAnyMethod()
+                     .AllowCredentials();
+            });
+
 
             app.UseRouting();
 
