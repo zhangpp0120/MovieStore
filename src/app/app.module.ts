@@ -1,9 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 //3rd party libraries
+import {
+  NgbCarouselModule,
+  NgbCollapseModule,
+  NgbDropdownModule,
+  NgbModalModule,
+  NgbPaginationModule,
+  NgbTabsetModule,
+  NgbAlertModule
+} from "@ng-bootstrap/ng-bootstrap";
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -14,6 +23,8 @@ import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
 import { MovieCardComponent } from './shared/components/movie-card/movie-card.component';
 import { from } from 'rxjs';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MovieListComponent } from './movies/movie-list/movie-list.component';
 
 @NgModule({
   // controllers ->  components, if you want to use components in angular they should be declared inside atleast one module.
@@ -25,12 +36,21 @@ import { from } from 'rxjs';
     LoginComponent,
     SignUpComponent,
     MovieDetailsComponent,
-    MovieCardComponent
+    MovieCardComponent,
+    MovieListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule,
+    NgbCarouselModule,
+    NgbCollapseModule,
+    NgbDropdownModule,
+    NgbModalModule,
+    NgbPaginationModule,
+    NgbTabsetModule,
+    NgbAlertModule
   ],
   // this is for Dependency Injection
   providers: [],

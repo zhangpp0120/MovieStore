@@ -11,3 +11,18 @@ angular -> components -> services(resuealbe) -> HttpClient -> API (JSON)
 we create a base API service that will have common CRUD operations () so that specific services MovieService, GenreService etc can talk to API 
 
 A service is nothing but a TypeScript class that has @jnjectable decorator, so that we can use it with DI. 
+
+In bootstarp there are certain components that have dependency on other 3rd party JS libraries such as jQuery etc...
+But when we install boostrap in angular we dont wanna install jQuery or other 3rd party libarraies because they might have conflict with Angular and they might effect how DOM works
+properly
+Some of the components from Boostrap don't work bt default such as dropdowns, Caraousels, etc.....
+for those components there are 2 very popular angular verision of librraies
+ngBootstarp -- they craeted those componnets purely based on angular , they dont require jquery or other 3rd party libarraies
+ngXBoostrap
+
+<!-- for navigation/ routing in angular instead of using href, we use angular Router -->
+ 
+two ways to go to any URL
+1. Type URL in the browser,
+2. click anchor
+
