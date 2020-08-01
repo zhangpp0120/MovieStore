@@ -9,20 +9,20 @@ import { Genre } from '../shared/models/genre';
 })
 export class GenresComponent implements OnInit {
 
-  genres: Genre[];
+  genres: Genre[]; // this is the genres in html file
   constructor(private genreServce: GenreService) { }
 
   // Page Life Cycle Hooks
   // alt+ shift + f  fromating
   // alt + o  from angular2-switcher, switch from component, view
   ngOnInit() {
-    console.log('tesss');
+    // console.log('tesss');
     // we wanna initialize any data, call the APi etc
     this.genreServce.getAllGenres()
       .subscribe(g => {
         this.genres = g;
-        console.log('inside Genres Component init method');
-        console.log(this.genres);
+        // console.log('inside Genres Component init method');
+        // console.log(this.genres);
       })
   }
 }
