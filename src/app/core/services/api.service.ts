@@ -37,7 +37,7 @@ export class ApiService {
   // get movie by movie id
   // get user by user id 
   getOne(path:string, id:number): Observable<any>{
-    return this.http.get(`${environment.apiUrl}${path}`+'/'+id).pipe(map((resp)=>resp as any));
+    return this.http.get(`${environment.apiUrl}${path}`+id).pipe(map((resp)=>resp as any));
   }
   // post some infomationi
   // login, signup, create movie
