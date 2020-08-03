@@ -1,0 +1,7 @@
+.bg-image {
+    height: 28.1rem;
+    width: 100%;
+    background-size: cover;
+    background-color: #07131b;
+    background-blend-mode: overlay;
+  }

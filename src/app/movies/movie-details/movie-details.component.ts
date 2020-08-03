@@ -1,3 +1,4 @@
+import { UserService } from './../../core/services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { MovieService } from './../../core/services/movie.service';
 import { Movie } from './../../shared/models/movie';
@@ -11,7 +12,9 @@ import { Component, OnInit, Input } from '@angular/core';
 export class MovieDetailsComponent implements OnInit {
   movieId: number;
   movie: Movie;
-  constructor(private movieService: MovieService, private route: ActivatedRoute) { }
+  isPurchased:boolean;
+  isFavorited:boolean;
+  constructor(private movieService: MovieService, private userService:UserService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(
@@ -20,6 +23,8 @@ export class MovieDetailsComponent implements OnInit {
         this.movieService.getMovieById(this.movieId)
           .subscribe(m => {
             this.movie = m.movie;
+            this.isFavorited = m.favorited;
+            this.isPurchased = m.purchased;
           });
       });
       console.log(this.movie);

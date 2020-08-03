@@ -41,8 +41,9 @@ export class ApiService {
   }
   // post some infomationi
   // login, signup, create movie
-  create(){
-
+  create(path:string, item:any): Observable<any>{
+    return this.http.post(`${environment.apiUrl}${path}`, item)
+      .pipe(map((resp)=>resp as any));
   }
   update(){}
   delete(){}
