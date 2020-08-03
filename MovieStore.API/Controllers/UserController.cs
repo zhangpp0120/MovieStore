@@ -76,7 +76,9 @@ namespace MovieStore.API.Controllers
             return Ok(reviews);
         }
 
-        //[Authorize]
+        [Authorize]
+        // in MVC Authorize will look for cookies
+        // in Angular, it will go to header looking for the JWT.
         [HttpPost]
         [Route("purchase")]
         public async Task<IActionResult> Purchase(PurchaseRequestModel purchaseRequestModel)
@@ -88,7 +90,7 @@ namespace MovieStore.API.Controllers
             return Ok(moviePurchased);
 
         }
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("moviepurchased")]
         public async Task<IActionResult> MoviePurchased()

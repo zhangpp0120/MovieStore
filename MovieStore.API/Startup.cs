@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Core.ServiceInterfaces;
 using MovieStore.Infrastructure.Data;
@@ -46,14 +50,28 @@ namespace MovieStore.API
                 options.UseSqlServer(Configuration.GetConnectionString("MovieStoreDbConnection")));
 
             services.AddMemoryCache();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(
-                options => {
-                    options.Cookie.Name = "MovieStoreAuthCookie";
-                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
-                    options.LoginPath = "/Account/Login";
-                }
-                );
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey =
+                            new SymmetricSecurityKey(Encoding
+                                .UTF8
+                                .GetBytes(Configuration
+                                    ["TokenSettings:PrivateKey"]))
+                    };
+                });
+            services.AddAuthorization(options =>
+            {
+                var defaultAuthorizationPolicyBuilder =
+                    new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
+                defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+                options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+            });
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IGenreRepository, GenreRepository>();
