@@ -26,3 +26,34 @@ two ways to go to any URL
 1. Type URL in the browser,
 2. click anchor
 
+angular pipes, data formating, number, currency, date - built-in pipes
+{{movie?.releaseDate | date:'yyyy'}}
+{{movie?.rating | number:'1.1-1'}}
+
+custom pipe?? 
+OverviewPipe, it should take a string and if the string length is greater 50 then you need to have three ...
+apply that pipe for movie.overview 
+crete that pipe in the shared folder   shared/pipes/OverviewPipe
+asdfasda dsfasdfadfdf ...
+
+
+in MVC
+1. create user  hash/salt,
+2. Login -> Validate User->
+
+in Angular
+1. create user from angular -> user info,
+2. Login-> un/pw,
+3. validate un/pw,
+4. we create token  JWT
+5. send that token to angular,
+6. Angular will save that token in localstorage or session sotrage in the browser,
+7. in angualr we want to this page ../user/purchase/movieid
+    a. make sure user is logged in 
+    b. make Angular will check if that user is logged in by checking the token created in setp 6
+    c. Route Guards ( filter in .NET) AuthenticationGuard -> we can check for token
+
+only if the token is valid, make the  http request,
+httprequest Angular will need to send that JWT token to  API
+API will check that JWT token from angular and only if its valid it will send the data. 
+backend also need to check the token

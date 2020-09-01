@@ -135,11 +135,11 @@
       <table class="table">
 
         <tbody>
-          <tr *ngFor="let cast of movie?.movieCasts">
-            <td> <img src="{{ cast?.profilePath }}" class="cast-small-img rounded-circle" alt="{{ cast?.name }}" />
+          <tr *ngFor="let movieCast of movie?.movieCasts">
+            <td> <img src="{{ movieCast.cast.profilePath }}" class="cast-small-img rounded-circle" style="height: 60px;" alt="{{ movieCast.cast.name }}" />
             </td>
-            <td> {{cast.name}} </td>
-            <td> {{cast.character}}</td>
+            <td> {{movieCast.cast.name}} </td>
+            <td> {{movieCast.cast.character}}</td>
           </tr>
 
         </tbody>

@@ -1,4 +1,5 @@
-import { movieGenres } from './movieGenres';
+import { MovieCasts } from './movieCasts';
+import { MovieGenres } from './movieGenres';
 import { Cast } from './cast';
 export interface Movie {
   id: number;
@@ -17,6 +18,6 @@ export interface Movie {
   price: number;
   rating: number;
   trailer: string;
-  movieCasts: Cast[];
-  movieGenres: movieGenres[];
+  movieCasts: MovieCasts[];
+  movieGenres: MovieGenres[];
 }

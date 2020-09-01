@@ -1,6 +1,6 @@
 import { Genre } from './genre';
-export interface movieGenres {
+export interface MovieGenres {
   movieId: number;
   genreId: number;
-  genre:Genre;
+  genre : Genre;
 }
