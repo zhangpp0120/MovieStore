@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Policy;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MovieStore.Core.Models.Request;
@@ -33,8 +33,7 @@ namespace MovieStore.API.Controllers
 
         [HttpPost]
         [Route("register")]
-        // http://localhost/api/account/register
-
+        // http ://localhost/api/account/register
         public async Task<IActionResult> RegisterUser([FromBody] UserRegisterRequestModel model)
         {
             // Model Binding

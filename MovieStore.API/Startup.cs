@@ -90,8 +90,9 @@ namespace MovieStore.API
         {
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
-                app.UseMovieStoreExceptionMiddleware();
+                app.UseDeveloperExceptionPage();
+                //app.UseMovieStoreExceptionMiddleware();
+                // this is located in MVC helper customized Middleware
             }
             app.UseCors(builder =>
             {

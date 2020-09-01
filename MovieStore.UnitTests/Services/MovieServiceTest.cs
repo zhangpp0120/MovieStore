@@ -72,7 +72,7 @@ namespace MovieStore.UnitTests.Services
             _sut = new MovieService(_mockMovieRepository.Object);
             Assert.ThrowsAsync<InvalidOperationException>(async () => await _sut.GetMovieById(20));
 
-            //var movie = await _sut.GetMovieById(10);
+            var movie = await _sut.GetMovieById(10);
         }
 
 
