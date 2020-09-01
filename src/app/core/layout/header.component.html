@@ -19,31 +19,26 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Login</a>
-        <app-login></app-login>
+        <a *ngIf ="!isAuthenticated" class="nav-link" [routerLink]="['/login']">Login</a>
+        <!-- this is very important  [RouterLink] = "['  path defined in app-routing']" -->
       </li>
+      
 
 
       <li class="nav-item">
         <div ngbDropdown>
-          <a class="nav-link" style="cursor: pointer;" ngbDropdownToggle> Profile </a>
+          <a *ngIf ="isAuthenticated" class="nav-link" style="cursor: pointer;" ngbDropdownToggle> Profile </a>
           <div ngbDropdownMenu>
             <ul class="list-unstyled p-2">
               <li class="m-1">
                 <app-profile></app-profile>
               </li>
               <li class="m-1">
-                <a>Logout </a>
+                <a (click)="logout()" class="nav-link">Logout</a>
               </li>
               <li class="m-1">
-               <a>Sth else</a>
+                <a>Sth else</a>
               </li>
-              <!-- <li class="m-1">
-                <a [routerLink]="['movies/genre', genre.id]">{{ genre.name }}</a>
-              </li>
-              <li class="m-1">
-                <a [routerLink]="['movies/genre', genre.id]">{{ genre.name }}</a>
-              </li> -->
             </ul>
           </div>
         </div>

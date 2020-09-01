@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {map, catchError} from 'rxjs/operators';
 import {environment} from 'src/environments/environment';
@@ -9,7 +9,11 @@ import {environment} from 'src/environments/environment';
 })
 export class ApiService {
 
-  constructor(protected http:HttpClient) { }
+  // private header: HttpHeaders;
+  constructor(protected http:HttpClient) { 
+    // this.header = new HttpHeaders();
+    // this.header.append('Content-Type', 'application/json') // tell Api that send info is in JSON format
+  }
   // get movies by genres
   // get all genres
   // get movies purchased by user
@@ -39,7 +43,7 @@ export class ApiService {
   getOne(path:string, id:number): Observable<any>{
     return this.http.get(`${environment.apiUrl}${path}`+id).pipe(map((resp)=>resp as any));
   }
-  // post some infomationi
+  // post some information, httppost
   // login, signup, create movie
   create(path:string, item:any): Observable<any>{
     return this.http.post(`${environment.apiUrl}${path}`, item)

@@ -1,7 +1,9 @@
+// angular module
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import {FormsModule,ReactiveFormsModule} from '@angular/forms'
 
 //3rd party libraries
 import {
@@ -13,7 +15,10 @@ import {
   NgbTabsetModule,
   NgbAlertModule
 } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { from } from 'rxjs';
 
+// component we created
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { GenresComponent } from './genres/genres.component';
@@ -22,8 +27,6 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
 import { MovieCardComponent } from './shared/components/movie-card/movie-card.component';
-import { from } from 'rxjs';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MovieListComponent } from './movies/movie-list/movie-list.component';
 import { FavoritesComponent } from './account/favorites/favorites.component';
 import { PurchasesComponent } from './account/purchases/purchases.component';
@@ -49,6 +52,8 @@ import { ProfileComponent } from './account/profile/profile.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule, // template-driven form
+    ReactiveFormsModule, // reactive form 
     NgbModule,
     NgbCarouselModule,
     NgbCollapseModule,

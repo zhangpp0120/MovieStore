@@ -13,24 +13,24 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthenticationService {
 
   private user: User;
-  private currentUserSubject = new BehaviorSubject<User>({} as User);
-  public currentUser = this.currentUserSubject.asObservable();
-
+  private currentUserSubject = new BehaviorSubject<User>({} as User); // subject
+  public currentUser = this.currentUserSubject.asObservable(); // make it public and observable, 
+// observable make connections between unrelated components, related components use @input @output
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
   constructor(private apiService: ApiService, private jwtStorageService: JwtStorageService) { }
 
   Login(userLogin: Login): Observable<boolean> {
-    return this.apiService.create('/account/login', userLogin)
+    return this.apiService.create('account/login', userLogin)
       .pipe(map(response => {
         if (response) {
-          this.jwtStorageService.saveToken(response.token);
+          this.jwtStorageService.saveToken(response.token); // you can check in postman for response 
           this.populateUserInfo();
           return true;
         }
-        return false;
-      }))
+        return false; //return code 400 sth will return false
+      }));
   }
 
   logout() {
@@ -51,6 +51,9 @@ export class AuthenticationService {
     }
   }
 
+  // when you refresh your browser, app component is the first one to run.
+  // that means that angular will reload everything, so we have to make sure if the token is present in the AppComponent init method.
+
   private decodedToken() {
     const token = this.jwtStorageService.getToken();
     if (!token || new JwtHelperService().isTokenExpired(token)) {
@@ -64,7 +67,7 @@ export class AuthenticationService {
   }
 
   getCurrentUser(): User {
-    return this.currentUserSubject.value;
+    return this.currentUserSubject.value; // get the value of this subject
   }
 
 

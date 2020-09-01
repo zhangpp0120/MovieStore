@@ -12,8 +12,6 @@ const routes: Routes = [
   {path:'signup',component:SignUpComponent},
   {path:'movie/:id',component:MovieDetailsComponent},
   {path:'movies/genre/:id',component:MovieListComponent}
-
-
 ];
 
 @NgModule({
