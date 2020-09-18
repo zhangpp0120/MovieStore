@@ -1,0 +1,14 @@
+<p>movie-list works!</p>
+<div class="rounded">
+    <div class="container-fluid light">
+        <div class="row">
+            <div *ngFor="let movie of movies">
+                <app-movie-card [movie]="movie"></app-movie-card>
+                <!-- //  two ways to share data between related components
+                //  for sending data from Parent component to child componnet we use @input decorator
+                //  for emitting data from child to parent we use @output decorator
+                //  here movie is @input movie in movie card -->
+            </div>
+        </div>
+    </div>
+</div>

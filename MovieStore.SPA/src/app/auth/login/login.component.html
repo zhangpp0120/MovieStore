@@ -1,0 +1,29 @@
+<!-- 
+    Send un/pw with Login model, to AuthService (Angular) , this will send to our AccountController
+    POST
+ -->
+
+<!-- Template approach  -->
+<!-- template variable of the form, #loginForm, whenever we have a form tag, angular will automatically creates and attaches an ngForm directives to the <form> -->
+<form (ngSubmit)="login()" #loginForm="ngForm">
+  <div *ngIf="invalidLogin" class="alert alert-danger">
+    Invalid username and/or password
+  </div>
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <!-- two way binding: the NgModel directive allows you to display a data property and update that property when the user makes changes. Automatically watching the changes  -->
+    <input type="email" class="form-control" name="userName" [(ngModel)]="userLogin.email" id="email"
+      aria-describedby="emailHelp" placeholder="Enter email" />
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" [(ngModel)] = "userLogin.password" name = "password" id="password" placeholder="Password" />
+  </div>
+  <button type="submit" class="btn btn-primary">Login</button>
+</form>
+
+<!-- in angular we have two ways to create/work with form
+    1. Template  driven form - used for simple forms where form logic is not complexx(login page)
+    2. Reactive forms -used for more complex forms, with complex validation rules etc registration, create movie page.
+-->

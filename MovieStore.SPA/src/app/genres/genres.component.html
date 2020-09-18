@@ -1,0 +1,14 @@
+<!-- <p>genres works!</p> -->
+<!-- directives, they help us make our HTML even powerful with some custom attributes -->
+<!-- <input type='text' class="" name="" id=""/> -->
+<!-- structural directives,  ngFor, ngIf and ngSwitch -->
+
+<ul class="list-unstyled p-2">
+    <!-- // angular 8 snippets works here for ngFor -->
+    <li *ngFor="let genre of genres" class="m-1">
+        <a [routerLink]="['movies/genre', genre.id]">{{ genre.name }}</a>
+        <!-- // routetlink is used to routing inside angular, where path is defined in app-routing.module.ts
+        // this is nothing to do with the api. -->
+    </li>
+</ul>
+<!-- for navigation/ routing in angular instead of using href, we use angular Router -->

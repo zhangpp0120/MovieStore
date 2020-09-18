@@ -1,0 +1,59 @@
+we need to make Ajax calls from Anglualr to  API to get data.
+XMLHttpRequest   js
+HttpClient(angular)-> it will use XMLHttpRequest behind the scenes (XHR)
+
+asp.net --> controller(MVC and API) --> service (class libraries) --> Repositories(class libaries) --> database
+we usually separate our angular application code into different feature folders to organize and reuse our code properly
+
+angular -> components -> services(resuealbe) -> HttpClient -> API (JSON)
+--> services will get that to components and components will return model to the views, so that views can display that data.
+
+we create a base API service that will have common CRUD operations () so that specific services MovieService, GenreService etc can talk to API 
+
+A service is nothing but a TypeScript class that has @jnjectable decorator, so that we can use it with DI. 
+
+In bootstarp there are certain components that have dependency on other 3rd party JS libraries such as jQuery etc...
+But when we install boostrap in angular we dont wanna install jQuery or other 3rd party libarraies because they might have conflict with Angular and they might effect how DOM works
+properly
+Some of the components from Boostrap don't work bt default such as dropdowns, Caraousels, etc.....
+for those components there are 2 very popular angular verision of librraies
+ngBootstarp -- they craeted those componnets purely based on angular , they dont require jquery or other 3rd party libarraies
+ngXBoostrap
+
+<!-- for navigation/ routing in angular instead of using href, we use angular Router -->
+ 
+two ways to go to any URL
+1. Type URL in the browser,
+2. click anchor
+
+angular pipes, data formating, number, currency, date - built-in pipes
+{{movie?.releaseDate | date:'yyyy'}}
+{{movie?.rating | number:'1.1-1'}}
+
+custom pipe?? 
+OverviewPipe, it should take a string and if the string length is greater 50 then you need to have three ...
+apply that pipe for movie.overview 
+crete that pipe in the shared folder   shared/pipes/OverviewPipe
+asdfasda dsfasdfadfdf ...
+
+
+in MVC
+1. create user  hash/salt,
+2. Login -> Validate User->
+
+in Angular
+1. create user from angular -> user info,
+2. Login-> un/pw,
+3. validate un/pw,
+4. we create token  JWT
+5. send that token to angular,
+6. Angular will save that token in localstorage or session sotrage in the browser,
+7. in angualr we want to this page ../user/purchase/movieid
+    a. make sure user is logged in 
+    b. make Angular will check if that user is logged in by checking the token created in setp 6
+    c. Route Guards ( filter in .NET) AuthenticationGuard -> we can check for token
+
+only if the token is valid, make the  http request,
+httprequest Angular will need to send that JWT token to  API
+API will check that JWT token from angular and only if its valid it will send the data. 
+backend also need to check the token
